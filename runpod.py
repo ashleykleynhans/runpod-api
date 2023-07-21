@@ -1,17 +1,21 @@
 import json
 import httpx
-
-GRAPHQL_URL = 'https://api.runpod.io/graphql'
-API_KEY = ''
+from dotenv import dotenv_values
 
 
 class API(object):
     def __init__(self):
-        self.URL = f'{GRAPHQL_URL}?api_key={API_KEY}'
+        env = dotenv_values('.env')
+        self.API_KEY = env['RUNPOD_API_KEY']
 
-    def _run_query(self, payload):
+    def _run_query(self, payload, auth_required=False):
+        url = 'https://api.runpod.io/graphql'
+
+        if auth_required:
+            url += f'?api_key={self.API_KEY}'
+
         response = httpx.post(
-            self.URL,
+            url,
             json=payload
         )
 
@@ -39,7 +43,7 @@ class API(object):
                     }
                 }
             """
-        })
+        }, False)
 
     def get_bid_price(self, gpu_id):
         return self._run_query({
@@ -58,7 +62,7 @@ class API(object):
                   }}
                 }}
             """.format(gpu_id=gpu_id)
-        })
+        }, False)
 
     # https://docs.runpod.io/docs/get-pod#get-pod-by-id
     def get_pod(self, pod_id):
@@ -106,7 +110,7 @@ class API(object):
                   }}
                 }}
             """.format(pod_id=pod_id)
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/get-pod#get-all-pods
     def get_pods(self):
@@ -169,7 +173,7 @@ class API(object):
                     }
                 }
             """
-        })
+        }, True)
 
     def get_myself(self):
         return self._run_query({
@@ -228,7 +232,7 @@ class API(object):
                     }
                 }
             """
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/start-pod#start-on-demand-pod
     def start_on_demand_pod(self, pod_id):
@@ -249,7 +253,7 @@ class API(object):
                     }}
                 }}
             """.format(pod_id=pod_id)
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/start-pod#start-spot-pod
     def start_spot_pod(self, pod_id, bid_price):
@@ -270,7 +274,7 @@ class API(object):
                     }}
                 }}
             """.format(pod_id=pod_id, bid_price=bid_price)
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/stop-pod
     def stop_pod(self, pod_id):
@@ -283,7 +287,7 @@ class API(object):
                     }}
                 }}
             """.format(pod_id=pod_id)
-        })
+        }, True)
 
     def terminate_pod(self, pod_id):
         return self._run_query({
@@ -292,7 +296,7 @@ class API(object):
                     podTerminate(input: {{ podId: "{pod_id}" }})
                 }}
             """.format(pod_id=pod_id)
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/create-pod
     def create_on_demand_pod(self, pod_config):
@@ -347,7 +351,7 @@ class API(object):
                     }}
                 }}
             """.format(pod_config=pod_config)
-        })
+        }, True)
 
     # https://docs.runpod.io/docs/create-pod
     def create_spot_pod(self, pod_config):
@@ -402,7 +406,7 @@ class API(object):
                     }}
                 }}
             """.format(pod_config=pod_config)
-        })
+        }, True)
 
     def create_template(self, template):
         return self._run_query({
@@ -429,15 +433,17 @@ class API(object):
                     }}
                 }}
             """.format(template=template)
-        })
+        }, True)
 
 
 class Serverless(object):
     def __init__(self):
+        env = dotenv_values('.env')
+        self.API_KEY = env['RUNPOD_API_KEY']
         self.headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': API_KEY
+            'Authorization': self.API_KEY
         }
 
     def get_dreambooth_health(self):
