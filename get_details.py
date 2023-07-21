@@ -2,6 +2,7 @@
 import runpod
 import json
 
+
 if __name__ == '__main__':
     runpod = runpod.API()
     response = runpod.get_myself()

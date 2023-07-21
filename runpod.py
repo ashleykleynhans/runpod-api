@@ -1,5 +1,4 @@
 import json
-
 import httpx
 
 GRAPHQL_URL = 'https://api.runpod.io/graphql'
