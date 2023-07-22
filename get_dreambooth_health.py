@@ -4,8 +4,8 @@ import json
 
 
 if __name__ == '__main__':
-    serverless = runpod.Serverless()
-    response = serverless.get_dreambooth_health()
+    endpoints = runpod.Endpoints()
+    response = endpoints.get_dreambooth_health()
     resp_json = response.json()
 
     if response.status_code == 401:

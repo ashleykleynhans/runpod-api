@@ -6,9 +6,9 @@ CONCEPT_NAME = 'OHWXman'
 
 
 if __name__ == '__main__':
-    serverless = runpod.Serverless()
+    endpoints = runpod.Endpoints()
 
-    response = serverless.train_dreambooth({
+    response = endpoints.train_dreambooth({
         'input': {
             'train': {
                 'concept_name': CONCEPT_NAME,

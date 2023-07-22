@@ -22,8 +22,8 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     job_id = args.job_id
-    serverless = runpod.Serverless()
-    response = serverless.cancel_dreambooth_training(job_id)
+    endpoints = runpod.Endpoints()
+    response = endpoints.cancel_dreambooth_training(job_id)
 
     if response.status_code == 401:
         print('ERROR 401: Unauthorized')
