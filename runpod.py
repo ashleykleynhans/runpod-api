@@ -181,6 +181,13 @@ class API(object):
                 query myself {
                     myself {
                         id
+                        authId
+                        email
+                        notifyPodsStale
+                        notifyPodsGeneral
+                        notifyLowBalance
+                        creditAlertThreshold
+                        notifyOther
                         currentSpendPerHr
                         machineQuota
                         referralEarned
@@ -190,6 +197,8 @@ class API(object):
                         multiFactorEnabled
                         clientBalance
                         hostBalance
+                        underBalance
+                        minBalance
                         apiKeys {
                             id
                             permissions
@@ -206,12 +215,55 @@ class API(object):
                             companyIdentification
                             taxIdentification
                         }
+                        serverlessDiscount {
+                            id
+                            userId
+                            type
+                            discountFactor
+                            expirationDate
+                        }
+                        spendDetails {
+                            localStoragePerHour
+                            networkStoragePerHour
+                            gpuComputePerHour
+                        }
                         creditCodes {
                             id
                             issuerId
                             createdAt
                             redeemedAt
                             amount
+                        }
+                        referral {
+                            code
+                            currentMonth {
+                                totalReferrals
+                                totalSpend
+                            }
+                        }
+                        podTemplates {
+                            id
+                            name
+                            imageName
+                            isPublic
+                            isRunpod
+                            isServerless
+                            ports
+                            runtimeInMin
+                            startJupyter
+                            startScript
+                            startSsh
+                            volumeInGb
+                            volumeMountPath
+                            advancedStart
+                            containerDiskInGb
+                            containerRegistryAuthId
+                            dockerArgs
+                            earned
+                            env {
+                                key
+                                value
+                            }
                         }
                         pods {
                             name
@@ -228,6 +280,54 @@ class API(object):
                             machine {
                                 podHostId
                             }
+                        }
+                        maxServerlessConcurrency
+                        endpoints {
+                            gpuIds
+                            id
+                            idleTimeout
+                            name
+                            networkVolumeId
+                            locations
+                            scalerType
+                            scalerValue
+                            template {
+                                name
+                                imageName
+                            }
+                            templateId
+                            type
+                            userId
+                            version
+                            workersMax
+                            workersMin
+                            workersStandby
+                        }
+                        networkVolumes {
+                            id
+                            name
+                            size
+                            dataCenterId
+                        }
+                        savingsPlans {
+                            startTime
+                            endTime
+                            podId
+                            gpuTypeId
+                            pod {
+                                name
+                                id
+                                desiredStatus
+                                costPerHr
+                                containerDiskInGb
+                                volumeInGb
+                                memoryInGb
+                                vcpuCount
+                            }
+                            savingsPlanType
+                            costPerHr
+                            upfrontCost
+                            planLength
                         }
                     }
                 }
@@ -442,6 +542,7 @@ class API(object):
                 mutation {{
                     updateEndpointWorkersMin(input: {{ endpointId: "{endpoint_id}", workerCount: {value} }}) {{
                         id
+                        templateId
                         workersMin
                         workersMax
                     }}
@@ -456,11 +557,27 @@ class API(object):
                 mutation {{
                     updateEndpointWorkersMax(input: {{ endpointId: "{endpoint_id}", workerCount: {value} }}) {{
                         id
+                        templateId
                         workersMin
                         workersMax
                     }}
                 }}
             """.format(endpoint_id=endpoint_id, value=value)
+        }, True)
+
+    # https://docs.runpod.io/docs/updating-your-endpoint
+    def update_endpoint_template(self, endpoint_id, template_id):
+        return self._run_query({
+            "query": """
+                mutation {{
+                    updateEndpointTemplate(input: {{ endpointId: "{endpoint_id}", templateId: "{template_id}" }}) {{
+                        id
+                        templateId
+                        workersMin
+                        workersMax
+                    }}
+                }}
+            """.format(endpoint_id=endpoint_id, template_id=template_id)
         }, True)
 
 

@@ -41,5 +41,6 @@ if __name__ == '__main__':
             endpoint = resp_json['data']['updateEndpointWorkersMin']
             print('Min workers updated successfully.')
             print(f"endpoint id: {endpoint['id']}")
+            print(f"template id: {endpoint['templateId']}")
             print(f"min workers: {endpoint['workersMin']}")
             print(f"max workers: {endpoint['workersMax']}")
