@@ -435,6 +435,34 @@ class API(object):
             """.format(template=template)
         }, True)
 
+    # https://docs.runpod.io/docs/updating-your-endpoint
+    def update_min_workers(self, endpoint_id, value):
+        return self._run_query({
+            "query": """
+                mutation {{
+                    updateEndpointWorkersMin(input: {{ endpointId: "{endpoint_id}", workerCount: {value} }}) {{
+                        id
+                        workersMin
+                        workersMax
+                    }}
+                }}
+            """.format(endpoint_id=endpoint_id, value=value)
+        }, True)
+
+    # https://docs.runpod.io/docs/updating-your-endpoint
+    def update_max_workers(self, endpoint_id, value):
+        return self._run_query({
+            "query": """
+                mutation {{
+                    updateEndpointWorkersMax(input: {{ endpointId: "{endpoint_id}", workerCount: {value} }}) {{
+                        id
+                        workersMin
+                        workersMax
+                    }}
+                }}
+            """.format(endpoint_id=endpoint_id, value=value)
+        }, True)
+
 
 class Endpoints(object):
     def __init__(self):
