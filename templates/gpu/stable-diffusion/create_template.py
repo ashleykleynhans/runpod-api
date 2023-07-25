@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.5.1'
+VERSION = '1.6.0'
 TEMPLATE_NAME = f'SDiffusion Dreambooth ControlNet Deforum Kohya'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
@@ -12,7 +12,7 @@ IS_SERVERLESS = False
 PORTS = '3000/http,3010/http,6006/http,8888/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 50
+VOLUME_IN_GB = 75
 VOLUME_MOUNT_PATH = '/workspace'
 
 

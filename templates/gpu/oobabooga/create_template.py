@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.0.0'
+VERSION = '1.4.0'
 TEMPLATE_NAME = f'Text Generation Web UI and API'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/oobabooga:{VERSION}'
@@ -12,7 +12,7 @@ IS_SERVERLESS = False
 PORTS = '3000/http,5000/http,5005/http,8888/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 50
+VOLUME_IN_GB = 100
 VOLUME_MOUNT_PATH = '/workspace'
 
 
