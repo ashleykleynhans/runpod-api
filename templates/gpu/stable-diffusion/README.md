@@ -1,30 +1,30 @@
 ## Automatic1111 Stable Diffusion WebUI with ControlNet, Deforum, Dreambooth, roop extensions + Kohya SS
 
-### Version 1.6.0
+### Version 1.6.0 with SDXL support
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
-  * CUDA 11.8
-  * Python 3.10.6
-  * [Automatic1111 Stable Diffusion Web UI](
-    https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.5.0
-  * [Dreambooth extension](
-    https://github.com/d8ahazard/sd_dreambooth_extension) 1.0.14
-  * [Deforum extension](
-    https://github.com/deforum-art/sd-webui-deforum)
-  * [ControlNet extension](
-    https://github.com/Mikubill/sd-webui-controlnet) v1.1.233
-  * [Additional networks extension](
-    https://github.com/kohya-ss/sd-webui-additional-networks)
-  * [Locon extension](
-    https://github.com/ashleykleynhans/a1111-sd-webui-locon)
-  * [roop extension](https://github.com/s0md3v/sd-webui-roop) 0.0.2
-  * [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.2
-  * Torch 2.0.1
-  * xformers 0.0.20
-  * v1-5-pruned.safetensors
-  * vae-ft-mse-840000-ema-pruned.safetensors
+* CUDA 11.8
+* Python 3.10.6
+* [Automatic1111 Stable Diffusion Web UI](
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.5.0
+* [Dreambooth extension](
+  https://github.com/d8ahazard/sd_dreambooth_extension) 1.0.14
+* [Deforum extension](
+  https://github.com/deforum-art/sd-webui-deforum)
+* [ControlNet extension](
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.233
+* [Additional networks extension](
+  https://github.com/kohya-ss/sd-webui-additional-networks)
+* [Locon extension](
+  https://github.com/ashleykleynhans/a1111-sd-webui-locon)
+* [roop extension](https://github.com/s0md3v/sd-webui-roop) 0.0.2
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.2
+* Torch 2.0.1
+* xformers 0.0.20
+* v1-5-pruned.safetensors
+* vae-ft-mse-840000-ema-pruned.safetensors
 
 ### Ports
 
@@ -70,7 +70,7 @@ tail -f /workspace/logs/webui.log
 
 ### Jupyter Lab
 
-If you wish to use the Jupyter lab, you must set 
+If you wish to use the Jupyter lab, you must set
 the `JUPYTER_PASSWORD` environment variable in the
 Template Overrides configuration when deploying
 your pod.
@@ -111,7 +111,7 @@ to edit this file, and then restart your pod via the
 hamburger menu to get them to go into effect, or
 alternatively just use `fuser -k 3001/tcp` and start
 the `/workspace/stable-diffusion-webui/webui.sh -f`
-script again.  
+script again.
 
 `--xformers` and `--api` are parameters that are
 frequently asked about.
