@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.4.0'
+VERSION = '1.5.0'
 TEMPLATE_NAME = f'Text Generation Web UI and API'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/oobabooga:{VERSION}'

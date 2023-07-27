@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.6.0'
+VERSION = '1.6.1'
 TEMPLATE_NAME = f'SDiffusion Dreambooth ControlNet Deforum Kohya'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'

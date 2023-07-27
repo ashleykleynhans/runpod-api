@@ -1,6 +1,6 @@
 ## Automatic1111 Stable Diffusion WebUI with ControlNet, Deforum, Dreambooth, roop extensions + Kohya SS
 
-### Version 1.6.0 with SDXL support
+### Version 1.6.1 with SDXL support
 
 ### Included in this Template
 
@@ -8,7 +8,7 @@
 * CUDA 11.8
 * Python 3.10.6
 * [Automatic1111 Stable Diffusion Web UI](
-  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.5.0
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.5.1
 * [Dreambooth extension](
   https://github.com/d8ahazard/sd_dreambooth_extension) 1.0.14
 * [Deforum extension](
