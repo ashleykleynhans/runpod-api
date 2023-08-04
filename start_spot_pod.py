@@ -34,10 +34,11 @@ def start_pod(pod_id, bid_price):
     if response.status_code == 200:
         if 'errors' in resp_json:
             for error in resp_json['errors']:
-                if error['message'] == 'There are not enough free GPUs on the host machine to start this pod.':
+                if error['message'] == 'There are not enough free GPUs on the host machine to start this pod.'\
+                        or error['message'] == 'The server your pods are hosted on does not have enough GPUs for you to resume your spot pod. Please try again later.':
                     print('No available GPU, sleeping for 30 seconds....')
                     time.sleep(30)
-                    start_pod(pod_id)
+                    start_pod(pod_id, bid_price)
                 else:
                     print(f"ERROR: {error['message']}")
         else:
