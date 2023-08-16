@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 TEMPLATE_NAME = f'TTS Generation Web UI'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/tts-generation:{VERSION}'

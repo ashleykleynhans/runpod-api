@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-import runpod
+import sys
 import json
+import time
+import runpod
 
-NAME = 'stable-diffusion-webui 1.6.1'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.6.1'
+NAME = 'stable-diffusion-webui 1.7.0'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.7.0'
 GPU_TYPE_ID = 'NVIDIA GeForce RTX 3090'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
-COUNTRY_CODE = ''
+COUNTRY_CODE = 'CA'
 MIN_DOWNLOAD = 700
 PORTS = '22/tcp,3000/http,3010/http,6006/http,8888/http'
 # PORTS = '22/tcp,8888/http,3000/http,5000/http,5005/http'
 
 
-if __name__ == '__main__':
-    runpod = runpod.API()
-
+def create_pod():
     pod_config = f"""
         countryCode: "{COUNTRY_CODE}",
         minDownload: {MIN_DOWNLOAD},
@@ -49,8 +49,23 @@ if __name__ == '__main__':
 
     if response.status_code == 200:
         if 'errors' in resp_json:
-            print('ERROR:')
+
             for error in resp_json['errors']:
-                print(error['message'])
+                if error['message'] == 'There are no longer any instances available with the requested specifications. Please refresh and try again.':
+                    print('No resources currently available, sleeping for 5 seconds')
+                    time.sleep(5)
+                    create_pod()
+                elif error['message'] == 'There are no longer any instances available with enough disk space.':
+                    print('No instances with enough disk space available, sleeping for 5 seconds')
+                    time.sleep(5)
+                    create_pod()
+                else:
+                    print('ERROR: ' + error['message'])
         else:
             print(json.dumps(resp_json, indent=4, default=str))
+            sys.exit()
+
+
+if __name__ == '__main__':
+    runpod = runpod.API()
+    create_pod()
