@@ -4,14 +4,14 @@ import json
 import time
 import runpod
 
-NAME = 'stable-diffusion-webui 1.7.0'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.7.0'
+NAME = 'stable-diffusion-webui 1.8.0'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.8.0'
 GPU_TYPE_ID = 'NVIDIA GeForce RTX 3090'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
-COUNTRY_CODE = 'CA'
+COUNTRY_CODE = 'BE'
 MIN_DOWNLOAD = 700
-PORTS = '22/tcp,3000/http,3010/http,6006/http,8888/http'
+PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8888/http'
 # PORTS = '22/tcp,8888/http,3000/http,5000/http,5005/http'
 
 
@@ -56,6 +56,7 @@ def create_pod():
                     time.sleep(5)
                     create_pod()
                 elif error['message'] == 'There are no longer any instances available with enough disk space.':
+                    print(error)
                     print('No instances with enough disk space available, sleeping for 5 seconds')
                     time.sleep(5)
                     create_pod()
