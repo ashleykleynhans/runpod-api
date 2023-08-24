@@ -28,8 +28,8 @@ def start_pod(pod_id):
         if 'errors' in resp_json:
             for error in resp_json['errors']:
                 if error['message'] == 'There are not enough free GPUs on the host machine to start this pod.':
-                    print('No available GPU, sleeping for 30 seconds....')
-                    time.sleep(30)
+                    print('No available GPU, sleeping for 10 seconds....')
+                    time.sleep(10)
                     start_pod(pod_id)
                 else:
                     print(f"ERROR: {error['message']}")

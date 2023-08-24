@@ -4,8 +4,8 @@ import json
 import time
 import runpod
 
-NAME = 'stable-diffusion-webui 1.8.0'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.8.0'
+NAME = 'stable-diffusion-webui 1.8.2'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.8.2'
 GPU_TYPE_ID = 'NVIDIA GeForce RTX 3090'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
