@@ -1,6 +1,6 @@
-## Automatic1111 Stable Diffusion WebUI with ControlNet, Deforum, Dreambooth, roop extensions + Kohya SS
+## Automatic1111 Stable Diffusion WebUI, Kohya SS and ComfyUI
 
-### Version 1.6.1 with SDXL support
+### Version 2.0.0 with SDXL support
 
 ### Included in this Template
 
@@ -8,39 +8,45 @@
 * CUDA 11.8
 * Python 3.10.12
 * [Automatic1111 Stable Diffusion Web UI](
-  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.5.1
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.6.0
 * [Dreambooth extension](
   https://github.com/d8ahazard/sd_dreambooth_extension) 1.0.14
 * [Deforum extension](
   https://github.com/deforum-art/sd-webui-deforum)
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.233
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.313
+* [After Detailer extension](
+  https://github.com/Bing-su/adetailer) v23.8.1
 * [Locon extension](
   https://github.com/ashleykleynhans/a1111-sd-webui-locon)
 * [roop extension](https://github.com/s0md3v/sd-webui-roop) 0.0.2
-* [SDXL Refiner extension](https://github.com/wcde/sd-webui-refiner)
-* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.5
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.8
+* [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 * Torch 2.0.1
 * xformers 0.0.20
 * v1-5-pruned.safetensors
 * vae-ft-mse-840000-ema-pruned.safetensors
+* sd_xl_base_1.0.safetensors
+* sd_xl_refiner_1.0.safetensors
+* sdxl_vae.safetensors
+* [runpodctl](https://github.com/runpod/runpodctl)
+* [croc](https://github.com/schollz/croc)
+* [Application Manager](https://github.com/ashleykleynhans/app-manager)
 
 ### Ports
 
-| Connect Port | Internal Port | Description             |
-|--------------|---------------|-------------------------|
-| 3000         | 3001          | Stable Diffusion Web UI |
-| 3010         | 3011          | Kohya_ss                |
-| 6006         | 6066          | Tensorboard             |
-| 8888         | 8888          | Jupyter Lab             |
+| Connect Port | Internal Port | Description                   |
+|--------------|---------------|-------------------------------|
+| 3000         | 3001          | A1111 Stable Diffusion Web UI |
+| 3010         | 3011          | Kohya_ss                      |
+| 3020         | 3021          | ComfyUI                       |
+| 6006         | 6066          | Tensorboard                   |
+| 8000         | 8000          | Application Manager           |
+| 8888         | 8888          | Jupyter Lab                   |
 
-If you want to stop the application and restart it, use
-`fuser -k` on the Internal Port, not the Connect Port, for
-example to stop the Stable Diffusion Web UI:
-
-```bash
-fuser -k 3001/tcp
-```
+You can use the Application Manager to stop and start
+the applications.  This can be useful for stopping the
+A1111 Web UI if you want to train using Kohya_ss for example.
 
 ### Environment Variables
 
@@ -49,7 +55,6 @@ fuser -k 3001/tcp
 | JUPYTER_PASSWORD   | Password for Jupyter Lab                     | Jup1t3R! |
 | DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | enabled  |
 | ENABLE_TENSORBOARD | Enables Tensorboard on port 6006             | enabled  |
-| DOWNLOAD_SDXL      | Download SDXL models, LoRA and styles.csv    | disabled |
 
 ## Logs
 
@@ -61,6 +66,7 @@ killing the services to view the logs
 |-------------------------|------------------------------|
 | Stable Diffusion Web UI | /workspace/logs/webui.log    |
 | Kohya SS                | /workspace/logs/kohya_ss.log |
+| ComfyUI                 | /workspace/logs/comfyui.log  |
 
 For example:
 
@@ -82,9 +88,9 @@ encrypted volumes!
 
 This is a custom packaged template for Stable Diffusion
 using the Automatic1111 Web UI, as well as the Dreambooth,
-Deforum, ControlNet and roop extension repos.
+Deforum, ControlNet, ADetailer and roop extension repos.
 
-It also contains the Kohya_ss Web UI.
+It also contains the Kohya_ss Web UI and ComfyUI.
 
 I do not maintain the code for any of these repos,
 I just package everything together so that it is
