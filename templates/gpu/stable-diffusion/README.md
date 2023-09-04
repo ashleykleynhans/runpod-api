@@ -1,6 +1,6 @@
 ## Automatic1111 Stable Diffusion WebUI, Kohya SS and ComfyUI
 
-### Version 2.0.0 with SDXL support
+### Version 2.1.0 with SDXL support
 
 ### Included in this Template
 
@@ -16,14 +16,14 @@
 * [ControlNet extension](
   https://github.com/Mikubill/sd-webui-controlnet) v1.1.313
 * [After Detailer extension](
-  https://github.com/Bing-su/adetailer) v23.8.1
+  https://github.com/Bing-su/adetailer) v23.9.1
 * [Locon extension](
   https://github.com/ashleykleynhans/a1111-sd-webui-locon)
 * [roop extension](https://github.com/s0md3v/sd-webui-roop) 0.0.2
-* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.8
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.9
 * [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 * Torch 2.0.1
-* xformers 0.0.20
+* xformers 0.0.21
 * v1-5-pruned.safetensors
 * vae-ft-mse-840000-ema-pruned.safetensors
 * sd_xl_base_1.0.safetensors
@@ -77,7 +77,7 @@ tail -f /workspace/logs/webui.log
 ### Jupyter Lab
 
 If you wish to use the Jupyter lab, you must set
-the `JUPYTER_PASSWORD` environment variable in the
+the **JUPYTER_PASSWORD** environment variable in the
 Template Overrides configuration when deploying
 your pod.
 
@@ -109,23 +109,23 @@ before that as the pod is still getting ready to be used.
 ### Changing launch parameters
 
 You may be used to changing a different file for your
-launch parameters. This template uses `webui-user.sh`,
+launch parameters. This template uses **webui-user.sh**,
 which is located in the webui directory
-(`/workspace/stable-diffusion-webui`) to manage the
-launch flags such as `--xformers`. You can feel free
+(**/workspace/stable-diffusion-webui**) to manage the
+launch flags such as **--xformers**. You can feel free
 to edit this file, and then restart your pod via the
 hamburger menu to get them to go into effect, or
-alternatively just use `fuser -k 3001/tcp` and start
-the `/workspace/stable-diffusion-webui/webui.sh -f`
+alternatively just use **fuser -k 3001/tcp** and start
+the **/workspace/stable-diffusion-webui/webui.sh -f**
 script again.
 
-`--xformers` and `--api` are parameters that are
+**--xformers** and **--api** are parameters that are
 frequently asked about.
 
 ### Using your own models
 
 The best ways to get your models onto your pod is
-by using `runpodctl` or by uploading them to Google
+by using **runpodctl** or by uploading them to Google
 Drive or other cloud storage and downloading them
 to your pod from there.
 
@@ -133,6 +133,6 @@ to your pod from there.
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using `runpodctl`. You run the `runpodctl` either in
+using **runpodctl**. You run the **runpodctl** either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

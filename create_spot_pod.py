@@ -2,16 +2,15 @@
 import runpod
 import json
 
-NAME = 'stable-diffusion-webui 1.7.0'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:1.7.0'
+NAME = 'stable-diffusion-webui 2.1.0'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:2.1.0'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
 BID_PRICE = 0.170
 COUNTRY_CODE = ''
 MIN_DOWNLOAD = 600
-# PORTS = '22/tcp,3000/tcp,3010/tcp,6006/tcp,8888/http'
-PORTS = '22/tcp,3000/http,3010/http,6006/http,8888/http'
+PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http'
 # PORTS = '22/tcp,8888/http,3000/http,5000/http,5005/http'
 
 
