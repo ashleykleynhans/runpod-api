@@ -1,15 +1,16 @@
 ## Kohya SS
 
-### Version 1.0.4
+### Version 1.3.1
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
 * CUDA 11.8
-* Python 3.10.6
-* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.7.16
+* Python 3.10.12
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v21.8.9
 * Torch 2.0.1
-* xformers 0.0.20
+* xformers 0.0.21
+* sd_xl_base_1.0.safetensors
 
 ### Ports
 
@@ -42,8 +43,8 @@ tail -f /workspace/logs/kohya_ss.log
 
 ### Jupyter Lab
 
-If you wish to use the Jupyter lab, you must set 
-the `JUPYTER_PASSWORD` environment variable in the
+If you wish to use the Jupyter lab, you must set
+the **JUPYTER_PASSWORD** environment variable in the
 Template Overrides configuration when deploying
 your pod.
 
@@ -65,14 +66,10 @@ at Kohya_ss! I'll try my best to help, but the
 RunPod community or Automatic/Kohya_ss communities
 may be better at helping you.
 
-Please wait until the GPU Utilization % is 0 before
-attempting to connect. You will likely get a 502 error
-before that as the pod is still getting ready to be used.
-
 ### Using your own models
 
 The best ways to get your models onto your pod is
-by using `runpodctl` or by uploading them to Google
+by using **runpodctl** or by uploading them to Google
 Drive or other cloud storage and downloading them
 to your pod from there.
 
@@ -80,6 +77,6 @@ to your pod from there.
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using `runpodctl`. You run the `runpodctl` either in
+using **runpodctl**. You run the **runpodctl** either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

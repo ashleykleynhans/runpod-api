@@ -4,13 +4,13 @@ import json
 import time
 import runpod
 
-NAME = 'stable-diffusion-webui 2.1.0'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:2.1.0'
+NAME = 'stable-diffusion-webui 3.0.4'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:3.0.4'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
 CLOUD_TYPE = 'COMMUNITY'
-COUNTRY_CODE = 'SK,SE,BE,BG,CA,CZ,FR,NL'
+COUNTRY_CODE = 'SK,SE,BE,BG,CA,CZ,NL'
 MIN_DOWNLOAD = 700
 PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http'
 # PORTS = '22/tcp,3000/tcp,8010/tcp,8020/tcp,3010/http,3020/http,6006/http,8888/http'

@@ -1,47 +1,44 @@
-## Text Generation Web UI and API for running Large Language Models like LLaMA, llama.cpp, GPT-J, Pythia, OPT, and GALACTICA
+## Würstchen: Efficient Pretraining of Text-to-Image Models
 
-### Version 1.5.9
+### Version 1.0.0
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
 * CUDA 11.8
 * Python 3.10.12
-* [Text Generation Web UI](
-  https://github.com/oobabooga/text-generation-webui)
-* Text Generation API
+* [Würstchen](
+  https://github.com/dome272/wuerstchen/)
 * Torch 2.0.1
 * xformers 0.0.21
 
 ### Ports
 
-| Port | Description                    |
-|------|--------------------------------|
-| 3000 | Text Generation Web UI         |
-| 5000 | Text Generation REST API       |
-| 5005 | Text Generation Websockets API |
-| 8888 | Jupyter Lab                    |
+| Port | Description |
+|------|-------------|
+| 3000 | Würstchen   |
+| 8888 | Jupyter Lab |
 
 ### Environment Variables
 
 | Variable           | Description                                     | Default  |
 |--------------------|-------------------------------------------------|----------|
 | JUPYTER_PASSWORD   | Password for Jupyter Lab                        | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable the Web UI from launching automatically | enabled  |
+| DISABLE_AUTOLAUNCH | Disable Würstchen from launching automatically  | enabled  |
 
 ## Logs
 
-The Text Generation Web UI creates a log file, and you can tail the log file
+Würstchen creates a log file, and you can tail the log file
 instead of killing the services to view the logs
 
-| Application           | Log file                    |
-|-----------------------|-----------------------------|
-| Text Generation WebUI | /workspace/logs/textgen.log |
+| Application | Log file                      |
+|-------------|-------------------------------|
+| Würstchen   | /workspace/logs/wurstchen.log |
 
 For example:
 
 ```bash
-tail -f /workspace/logs/textgen.log
+tail -f /workspace/logs/wurstchen.log
 ```
 
 ### Jupyter Lab
@@ -56,8 +53,7 @@ your pod.
 Note that this does not work out of the box with
 encrypted volumes!
 
-This is a custom packaged template for The Text
-Generation Web UI.
+This is a custom packaged template for Würstchen.
 
 I do not maintain the code for this repo,
 I just package everything together so that it is
@@ -65,7 +61,7 @@ easier for you to use.
 
 If you need help with settings, etc. You can feel free
 to ask me, but just keep in mind that I am not an expert
-at the Text Generation Web UI! I'll try my best to help, but the
+at Würstchen! I'll try my best to help, but the
 RunPod community may be better at helping you.
 
 ### Uploading to Google Drive

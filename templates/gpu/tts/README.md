@@ -1,6 +1,6 @@
 ## TTS Generation Web UI (Bark, MusicGen + AudioGen, Tortoise, RVC, Vocos, Demucs)
 
-### Version 1.0.0
+### Version 1.0.5
 
 ### Included in this Template
 
@@ -10,7 +10,7 @@
 * [TTS Generation Web UI](
   https://github.com/rsxdalv/tts-generation-webui)
 * Torch 2.0.1
-* xformers 0.0.20
+* xformers 0.0.19
 
 ### Ports
 
@@ -43,8 +43,8 @@ tail -f /workspace/logs/tts.log
 
 ### Jupyter Lab
 
-If you wish to use the Jupyter lab, you must set 
-the `JUPYTER_PASSWORD` environment variable in the
+If you wish to use the Jupyter lab, you must set
+the **JUPYTER_PASSWORD** environment variable in the
 Template Overrides configuration when deploying
 your pod.
 
@@ -65,14 +65,10 @@ to ask me, but just keep in mind that I am not an expert
 at TTS Generation! I'll try my best to help, but the
 RunPod community may be better at helping you.
 
-Please wait until the GPU Utilization % is 0 before
-attempting to connect. You will likely get a 502 error
-before that as the pod is still getting ready to be used.
-
 ### Uploading to Google Drive
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using `runpodctl`. You run the `runpodctl` either in
+using **runpodctl**. You run the **runpodctl** either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

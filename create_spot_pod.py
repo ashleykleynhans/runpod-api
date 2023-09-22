@@ -2,8 +2,8 @@
 import runpod
 import json
 
-NAME = 'stable-diffusion-webui 2.1.0'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:2.1.0'
+NAME = 'stable-diffusion-webui 3.0.4'
+IMAGE_NAME = 'ashleykza/stable-diffusion-webui:3.0.4'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75

@@ -1,6 +1,6 @@
 ## Automatic1111 Stable Diffusion WebUI, Kohya SS and ComfyUI
 
-### Version 2.1.0 with SDXL support
+### Version 3.0.3 with SDXL support and ControlNet SDXL support
 
 ### Included in this Template
 
@@ -14,9 +14,9 @@
 * [Deforum extension](
   https://github.com/deforum-art/sd-webui-deforum)
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.313
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.410
 * [After Detailer extension](
-  https://github.com/Bing-su/adetailer) v23.9.1
+  https://github.com/Bing-su/adetailer) v23.9.2
 * [Locon extension](
   https://github.com/ashleykleynhans/a1111-sd-webui-locon)
 * [roop extension](https://github.com/s0md3v/sd-webui-roop) 0.0.2
@@ -24,11 +24,10 @@
 * [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
 * Torch 2.0.1
 * xformers 0.0.21
-* v1-5-pruned.safetensors
-* vae-ft-mse-840000-ema-pruned.safetensors
 * sd_xl_base_1.0.safetensors
 * sd_xl_refiner_1.0.safetensors
 * sdxl_vae.safetensors
+* inswapper_128.onnx
 * [runpodctl](https://github.com/runpod/runpodctl)
 * [croc](https://github.com/schollz/croc)
 * [Application Manager](https://github.com/ashleykleynhans/app-manager)
@@ -102,10 +101,6 @@ at Stable Diffusion! I'll try my best to help, but the
 RunPod community or Automatic/Stable Diffusion communities
 may be better at helping you.
 
-Please wait until the GPU Utilization % is 0 before
-attempting to connect. You will likely get a 502 error
-before that as the pod is still getting ready to be used.
-
 ### Changing launch parameters
 
 You may be used to changing a different file for your
@@ -118,9 +113,6 @@ hamburger menu to get them to go into effect, or
 alternatively just use **fuser -k 3001/tcp** and start
 the **/workspace/stable-diffusion-webui/webui.sh -f**
 script again.
-
-**--xformers** and **--api** are parameters that are
-frequently asked about.
 
 ### Using your own models
 
