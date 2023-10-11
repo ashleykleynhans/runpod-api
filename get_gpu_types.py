@@ -20,10 +20,10 @@ if __name__ == '__main__':
             #print(json.dumps(sorted_gpu_types, indent=4, default=str))
 
             # Define the column widths
-            widths = [33, 22, 8, 9, 9, 11, 9]
+            widths = [39, 22, 8, 9, 9, 11, 9]
 
-            print('ID                               Name                  GPU     GPU Max  Secure   Community  Spot')
-            print('-------------------------------  --------------------  ------  -------  -------  ---------  ------')
+            print('ID                                     Name                  GPU     GPU Max  Secure   Community  Spot')
+            print('-------------------------------------  --------------------  ------  -------  -------  ---------  ------')
 
             for pod in sorted_gpu_types:
                 memory = f"{pod['memoryInGb']} GB"
