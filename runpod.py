@@ -588,7 +588,7 @@ class Endpoints(object):
         self.headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': self.API_KEY
+            'Authorization': f'Bearer {self.API_KEY}'
         }
 
     def get_dreambooth_health(self):
