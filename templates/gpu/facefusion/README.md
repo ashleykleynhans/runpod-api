@@ -1,6 +1,6 @@
 ## FaceFusion: Next generation face swapper and enhancer
 
-### Version 1.1.0
+### Version 1.1.1
 
 ### Included in this Template
 

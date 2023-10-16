@@ -1,6 +1,14 @@
 ## LLaVA: Large Language and Vision Assistant
 
-### Version 1.1.0
+### Version 1.1.1
+
+**NOTE:** Although the container logs may say that the Container is READY and port 3000 is accessible,
+the model worker will still need to download the model the first time you create the pod, and since the model
+is around 20GB in size, this can take a few minutes.  You can monitor the progress by opening the **model-worker.log**
+log file in Jupyter lab or tailing it using the instructions below (See the Logs section below).
+
+I recommend A6000 or a GPU with more than 24GB of VRAM because the model tends to get GPU OOM errors with 24GB
+or less of VRAM.
 
 ### Included in this Template
 
@@ -8,7 +16,7 @@
 * CUDA 11.8
 * Python 3.10.12
 * [LLaVA](
-  https://github.com/haotian-liu/llava) v1.1.0
+  https://github.com/haotian-liu/llava) v1.1.1
 * Torch 2.0.1
 * xformers 0.0.22
 

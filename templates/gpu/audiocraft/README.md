@@ -1,6 +1,6 @@
 ## Audiocraft Plus Music and Audio Generation
 
-### Version 3.0.2 now in Stereo!
+### Version 3.0.3 now in Stereo!
 
 ### Included in this Template
 
@@ -10,7 +10,7 @@
 * [Audiocraft Plus](
   https://github.com/GrandaddyShmax/audiocraft_plus) v2.0.1
 * Torch 2.0.1
-* xformers 0.0.20
+* xformers 0.0.21
 
 ### Ports
 
