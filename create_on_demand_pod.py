@@ -4,8 +4,9 @@ import json
 import time
 import runpod
 
-NAME = 'stable-diffusion-webui 3.0.4'
-IMAGE_NAME = 'ashleykza/stable-diffusion-webui:3.0.4'
+VERSION = '3.3.1'
+NAME = f'stable-diffusion-webui {VERSION}'
+IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 75
