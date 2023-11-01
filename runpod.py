@@ -216,7 +216,6 @@ class API(object):
                             taxIdentification
                         }
                         serverlessDiscount {
-                            id
                             userId
                             type
                             discountFactor

@@ -13,5 +13,5 @@ if __name__ == '__main__':
         print(json.dumps(myself, indent=4, default=str))
     else:
         print('ERROR:')
-        print('Status code: ' + response.status_code)
+        print(f'Status code: {response.status_code}')
         print(json.dumps(resp_json, indent=4, default=str))
