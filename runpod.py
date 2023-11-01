@@ -199,21 +199,14 @@ class API(object):
                         hostBalance
                         underBalance
                         minBalance
-                        apiKeys {
-                            id
-                            permissions
-                            createdAt
-                        }
-                        pubKey
-                        information {
-                            firstName
-                            lastName
-                            addressLine1
-                            addressLine2
-                            countryCode
-                            companyName
-                            companyIdentification
-                            taxIdentification
+                        dailyCharges {
+                            amount
+                            updatedAt
+                            diskCharges
+                            podCharges
+                            apiCharges
+                            serverlessCharges
+                            type
                         }
                         serverlessDiscount {
                             userId
@@ -239,6 +232,28 @@ class API(object):
                                 totalReferrals
                                 totalSpend
                             }
+                        }
+                        apiKeys {
+                            id
+                            permissions
+                            createdAt
+                        }
+                        pubKey
+                        containerRegistryCreds {
+                            id
+                            name
+                            name
+                            registryAuth
+                        }
+                        information {
+                            firstName
+                            lastName
+                            addressLine1
+                            addressLine2
+                            countryCode
+                            companyName
+                            companyIdentification
+                            taxIdentification
                         }
                         podTemplates {
                             id
