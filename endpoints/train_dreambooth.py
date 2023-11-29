@@ -24,8 +24,8 @@ if __name__ == '__main__':
                 'unet_learning_rate': 0.000002,
                 'text_lr_scheduler': 'constant',
                 'unet_lr_scheduler': 'constant',
-                'text_8_bit_adam': False,
-                'unet_8_bit_adam': False,
+                'text_8_bit_adam': True,
+                'unet_8_bit_adam': True,
                 'text_seed': 420420,
                 'unet_seed': 420420,
                 'offset_noise': False
