@@ -30,9 +30,10 @@ if __name__ == '__main__':
     args = get_args()
     runpod = runpod.Serverless()
     response = runpod.update_min_workers(args.endpoint_id, args.min_workers)
-    resp_json = response.json()
 
     if response.status_code == 200:
+        resp_json = response.json()
+
         if 'errors' in resp_json:
             print('ERROR:')
             for error in resp_json['errors']:
@@ -44,3 +45,8 @@ if __name__ == '__main__':
             print(f"template id: {endpoint['templateId']}")
             print(f"min workers: {endpoint['workersMin']}")
             print(f"max workers: {endpoint['workersMax']}")
+    elif response.status_code == 401:
+        print('ERROR: Unauthorized (401) - Check your API token')
+    else:
+        print('ERROR: ', end='')
+        print(f'HTTP Status code: {response.status_code}')
