@@ -28,7 +28,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    runpod = runpod.API()
+    runpod = runpod.Serverless()
     response = runpod.update_max_workers(args.endpoint_id, args.max_workers)
     resp_json = response.json()
 

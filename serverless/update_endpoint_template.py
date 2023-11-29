@@ -28,7 +28,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    runpod = runpod.API()
+    runpod = runpod.Serverless()
     response = runpod.update_endpoint_template(args.endpoint_id, args.template_id)
     resp_json = response.json()
 

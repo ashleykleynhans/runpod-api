@@ -549,8 +549,38 @@ class API(object):
             """.format(template=template)
         }, True)
 
+
+class Serverless(object):
+    def __init__(self):
+        env = dotenv_values('.env')
+        self.API_KEY = env['RUNPOD_API_KEY']
+        self.headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {self.API_KEY}'
+        }
+
+    def _run_query(self, payload, auth_required=False, url='https://api.runpod.io/graphql'):
+        if auth_required:
+            url += f'?api_key={self.API_KEY}'
+
+        response = httpx.post(
+            url,
+            json=payload
+        )
+
+        return response
+
+    def _get_request(self, url: str):
+        response = httpx.get(
+            url,
+            headers=self.headers
+        )
+
+        return response
+
     # https://docs.runpod.io/docs/updating-your-endpoint
-    def update_min_workers(self, endpoint_id, value):
+    def update_min_workers(self, endpoint_id: str, value: int):
         return self._run_query({
             "query": """
                 mutation {{
@@ -562,10 +592,10 @@ class API(object):
                     }}
                 }}
             """.format(endpoint_id=endpoint_id, value=value)
-        }, True)
+        }, True, 'https://api.runpod.io/graphql')
 
     # https://docs.runpod.io/docs/updating-your-endpoint
-    def update_max_workers(self, endpoint_id, value):
+    def update_max_workers(self, endpoint_id: str, value: int):
         return self._run_query({
             "query": """
                 mutation {{
@@ -577,10 +607,10 @@ class API(object):
                     }}
                 }}
             """.format(endpoint_id=endpoint_id, value=value)
-        }, True)
+        }, True, 'https://api.runpod.io/graphql')
 
     # https://docs.runpod.io/docs/updating-your-endpoint
-    def update_endpoint_template(self, endpoint_id, template_id):
+    def update_endpoint_template(self, endpoint_id: str, template_id: int):
         return self._run_query({
             "query": """
                 mutation {{
@@ -592,7 +622,12 @@ class API(object):
                     }}
                 }}
             """.format(endpoint_id=endpoint_id, template_id=template_id)
-        }, True)
+        }, True, 'https://api.runpod.io/graphql')
+
+    def get_serverless_logs(self, endpoint_id: str, start: str, end: str, batch_size: int):
+        url = f'https://api.runpod.ai/v2/{endpoint_id}/logs?batch={batch_size}'
+        url += f'&from={start}&to={end}'
+        return self._get_request(url)
 
 
 class Endpoints(object):

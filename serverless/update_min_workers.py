@@ -28,7 +28,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    runpod = runpod.API()
+    runpod = runpod.Serverless()
     response = runpod.update_min_workers(args.endpoint_id, args.min_workers)
     resp_json = response.json()
 
