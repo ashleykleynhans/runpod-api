@@ -19,8 +19,9 @@ if __name__ == '__main__':
             sorted_gpu_types = sorted(gpu_types, key=lambda x: x["memoryInGb"])
 
             table = PrettyTable(padding_width=2)
-            table.align = 'l'
             table.field_names = ['ID', 'Name', 'GPU', 'GPU Max', 'Secure', 'Community', 'Spot']
+            table.align['ID'] = 'l'
+            table.align['Name'] = 'l'
 
             for gpu in sorted_gpu_types:
                 memory = f"{gpu['memoryInGb']} GB"
