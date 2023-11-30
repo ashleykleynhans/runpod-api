@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import runpod
+from prettytable import PrettyTable
 
 
 if __name__ == '__main__':
@@ -17,35 +18,32 @@ if __name__ == '__main__':
             gpu_types = resp_json['data']['gpuTypes']
             sorted_gpu_types = sorted(gpu_types, key=lambda x: x["memoryInGb"])
 
-            #print(json.dumps(sorted_gpu_types, indent=4, default=str))
+            table = PrettyTable()
+            table.field_names = ['ID', 'Name', 'GPU', 'GPU Max', 'Secure', 'Community', 'Spot']
 
-            # Define the column widths
-            widths = [39, 22, 8, 9, 9, 11, 9]
+            for gpu in sorted_gpu_types:
+                memory = f"{gpu['memoryInGb']} GB"
 
-            print('ID                                     Name                  GPU     GPU Max  Secure   Community  Spot')
-            print('-------------------------------------  --------------------  ------  -------  -------  ---------  ------')
+                if not gpu['secureCloud']:
+                    gpu['securePrice'] = '-'
 
-            for pod in sorted_gpu_types:
-                memory = f"{pod['memoryInGb']} GB"
-                row = f"{pod['id']:<{widths[0]}}"
-                row += f"{pod['displayName']:<{widths[1]}}"
-                row += f"{memory:<{widths[2]}}"
-                row += f"{pod['maxGpuCount']:<{widths[3]}}"
+                if not gpu['communityCloud']:
+                    gpu['communityPrice'] = '-'
 
-                if not pod['secureCloud']:
-                    pod['securePrice'] = '-'
+                if gpu['lowestPrice']['minimumBidPrice'] is None:
+                    gpu['lowestPrice']['minimumBidPrice'] = '-'
 
-                if not pod['communityCloud']:
-                    pod['communityPrice'] = '-'
+                table.add_row([
+                    gpu['id'],
+                    gpu['displayName'],
+                    memory,
+                    gpu['maxGpuCount'],
+                    gpu['securePrice'],
+                    gpu['communityPrice'],
+                    gpu['lowestPrice']['minimumBidPrice']
+                ])
 
-                row += f"{pod['securePrice']:<{widths[4]}}"
-                row += f"{pod['communityPrice']:<{widths[5]}}"
-
-                if pod['lowestPrice']['minimumBidPrice'] is None:
-                    pod['lowestPrice']['minimumBidPrice'] = '-'
-
-                row += f"{pod['lowestPrice']['minimumBidPrice']:<{widths[6]}}"
-                print(row)
+            print(table)
     else:
         print(response.status_code)
         print(json.dumps(resp_json, indent=4, default=str))
