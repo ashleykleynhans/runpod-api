@@ -18,7 +18,8 @@ if __name__ == '__main__':
             gpu_types = resp_json['data']['gpuTypes']
             sorted_gpu_types = sorted(gpu_types, key=lambda x: x["memoryInGb"])
 
-            table = PrettyTable()
+            table = PrettyTable(padding_width=2)
+            table.align = 'l'
             table.field_names = ['ID', 'Name', 'GPU', 'GPU Max', 'Secure', 'Community', 'Spot']
 
             for gpu in sorted_gpu_types:
