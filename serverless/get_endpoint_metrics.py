@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import json
 import runpod
 from prettytable import PrettyTable
 
@@ -17,6 +16,14 @@ def get_args():
         help='endpoint id (eg. dg31b9aqtupn2z)'
     )
 
+    parser.add_argument(
+        '--interval', '-interval', '--i', '-i',
+        type=str,
+        required=False,
+        default='h',
+        help='interval (eg. min/h/d/w)'
+    )
+
     return parser.parse_args()
 
 
@@ -24,7 +31,7 @@ if __name__ == '__main__':
     args = get_args()
     runpod = runpod.Serverless()
 
-    response = runpod.get_serverless_request_metrics(args.endpoint_id)
+    response = runpod.get_serverless_request_metrics(args.endpoint_id, args.interval)
 
     if response.status_code == 200:
         resp_json = response.json()
