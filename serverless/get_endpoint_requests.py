@@ -39,11 +39,13 @@ if __name__ == '__main__':
 
             if 'requests' in resp_json and resp_json['requests'] is not None:
                 for r in resp_json['requests']:
+
+                    execution_time = r.get('executionTime', '')
                     table.add_row([
                         r['status'],
                         r['id'],
                         r['delayTime'],
-                        r['executionTime'],
+                        execution_time,
                         r['workerId']
                     ])
 
