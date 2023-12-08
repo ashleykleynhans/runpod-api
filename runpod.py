@@ -630,6 +630,10 @@ class Serverless(object):
         url += f'&from={start}&to={end}'
         return self._get_request(url)
 
+    def get_serverless_requests(self, endpoint_id: str):
+        url = f'https://api.runpod.ai/v2/{endpoint_id}/requests'
+        return self._get_request(url)
+
 
 class Endpoints(object):
     def __init__(self):
