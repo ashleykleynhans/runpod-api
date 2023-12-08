@@ -553,7 +553,8 @@ class API(object):
 class Serverless(object):
     def __init__(self):
         env = dotenv_values('.env')
-        self.API_KEY = env['RUNPOD_API_KEY']
+        self.API_KEY = env.get('RUNPOD_API_KEY')
+        self.METRICS_API_KEY = env.get('RUNPOD_METRICS_API_KEY')
         self.headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -575,6 +576,18 @@ class Serverless(object):
         response = httpx.get(
             url,
             headers=self.headers,
+            timeout=120
+        )
+
+        return response
+
+    def _get_metrics(self, url: str):
+        headers = self.headers
+        headers['Authorization'] = f'Bearer {self.METRICS_API_KEY}'
+
+        response = httpx.get(
+            url,
+            headers=headers,
             timeout=120
         )
 
@@ -628,11 +641,15 @@ class Serverless(object):
     def get_serverless_logs(self, endpoint_id: str, start: str, end: str, batch_size: int):
         url = f'https://api.runpod.ai/v2/{endpoint_id}/logs?batch={batch_size}'
         url += f'&from={start}&to={end}'
-        return self._get_request(url)
+        return self._get_metrics(url)
 
     def get_serverless_requests(self, endpoint_id: str):
         url = f'https://api.runpod.ai/v2/{endpoint_id}/requests'
         return self._get_request(url)
+
+    def get_serverless_metrics(self, endpoint_id: str):
+        url = f'https://api.runpod.ai/v2/{endpoint_id}/metrics'
+        return self._get_metrics(url)
 
 
 class Endpoints(object):
