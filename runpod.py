@@ -574,7 +574,8 @@ class Serverless(object):
     def _get_request(self, url: str):
         response = httpx.get(
             url,
-            headers=self.headers
+            headers=self.headers,
+            timeout=120
         )
 
         return response
@@ -655,7 +656,8 @@ class Endpoints(object):
         return httpx.post(
             url,
             json=payload,
-            headers=self.headers
+            headers=self.headers,
+            timeout=120
         )
 
     def cancel_dreambooth_training(self, job_id):
