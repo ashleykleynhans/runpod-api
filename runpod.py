@@ -651,6 +651,14 @@ class Serverless(object):
         url = f'https://api.runpod.ai/v2/{endpoint_id}/metrics'
         return self._get_metrics(url)
 
+    def get_serverless_request_metrics(self, endpoint_id: str, interval='h'):
+        url = f'https://api.runpod.ai/v2/{endpoint_id}/metrics/request_ts_v1?interval={interval}'
+        return self._get_metrics(url)
+
+    def get_serverless_cold_start_metrics(self, endpoint_id: str, interval='h'):
+        url = f'https://api.runpod.ai/v2/{endpoint_id}/metrics/cold_start_ts_v1?interval={interval}'
+        return self._get_metrics(url)
+
 
 class Endpoints(object):
     def __init__(self):
