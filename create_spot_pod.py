@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
-import runpod
+import sys
 import json
+import time
+import runpod
 
-VERSION = '3.12.2'
+VERSION = '3.12.4'
 NAME = f'stable-diffusion-webui {VERSION}'
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
 OS_DISK_SIZE_GB = 10
 PERSISTENT_DISK_SIZE_GB = 100
-BID_PRICE = 0.170
-COUNTRY_CODE = ''
-MIN_DOWNLOAD = 600
-PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http'
-# PORTS = '22/tcp,8888/http,3000/http,5000/http,5005/http'
+BID_PRICE = 0.190
+COUNTRY_CODE = 'NO'
+MIN_DOWNLOAD = 700
+ALLOWED_CUDA_VERSIONS = ['11.8', '12.0', '12.1', '12.2']
+PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http,2999/http'
 
 
-if __name__ == '__main__':
-    runpod = runpod.API()
+def create_spot_pod():
+    allowed_cuda_versions_string = ", ".join([f'"{version}"' for version in ALLOWED_CUDA_VERSIONS])
 
     pod_config = f"""
         countryCode: "{COUNTRY_CODE}",
         minDownload: {MIN_DOWNLOAD},
+        allowedCudaVersions: [{allowed_cuda_versions_string}],
         bidPerGpu: {BID_PRICE},
         gpuCount: 1,
         volumeInGb: {PERSISTENT_DISK_SIZE_GB},
@@ -52,11 +55,27 @@ if __name__ == '__main__':
 
     if response.status_code == 200:
         if 'errors' in resp_json:
-            print('ERROR:')
+
             for error in resp_json['errors']:
-                print(error['message'])
+                if error['message'] == 'There are no longer any instances available with the requested specifications. Please refresh and try again.':
+                    print('No resources currently available, sleeping for 5 seconds')
+                    time.sleep(5)
+                    create_spot_pod()
+                elif error['message'] == 'There are no longer any instances available with enough disk space.':
+                    print(error)
+                    print('No instances with enough disk space available, sleeping for 5 seconds')
+                    time.sleep(5)
+                    create_spot_pod()
+                else:
+                    print('ERROR: ' + error['message'])
         else:
             print(json.dumps(resp_json, indent=4, default=str))
+            sys.exit()
     else:
         print(response.status_code)
         print(json.dumps(resp_json, indent=4, default=str))
+
+
+if __name__ == '__main__':
+    runpod = runpod.API()
+    create_spot_pod()
