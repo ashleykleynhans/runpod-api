@@ -1,6 +1,6 @@
 ## InstantID : Zero-shot Identity-Preserving Generation in Seconds
 
-### Version 1.0.0
+### Version 1.1.4
 
 ### Included in this Template
 
@@ -11,16 +11,20 @@
   https://github.com/InstantID/InstantID)
 * Torch 2.0.1
 * xformers 0.0.22
+* Jupyter Lab
 * [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
 * [croc](https://github.com/schollz/croc)
 * [rclone](https://rclone.org/)
 
 ### Ports
 
-| Port | Description |
-|------|-------------|
-| 3000 | InstantID   |
-| 8888 | Jupyter Lab |
+| Port | Description          |
+|------|----------------------|
+| 3000 | InstantID            |
+| 8888 | Jupyter Lab          |
+| 2999 | RunPod File Uploader |
 
 ### Environment Variables
 

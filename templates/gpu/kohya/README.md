@@ -1,25 +1,29 @@
 ## Kohya SS
 
-### Version 1.6.0
+### Version 1.12.3
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
 * CUDA 11.8
 * Python 3.10.12
-* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v22.1.0
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v22.6.1
 * Torch 2.0.1
-* xformers 0.0.21
+* xformers 0.0.22
+* Jupyter Lab
 * [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
 * [rclone](https://rclone.org/)
 * sd_xl_base_1.0.safetensors
 
 ### Ports
 
-| Port | Description             |
-|------|-------------------------|
-| 3000 | Kohya_ss                |
-| 8888 | Jupyter Lab             |
+| Port | Description            |
+|------|------------------------|
+| 3000 | Kohya_ss               |
+| 8888 | Jupyter Lab            |
+| 2999 | RunPod File Uploader   |
 
 ### Environment Variables
 

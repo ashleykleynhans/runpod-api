@@ -2,14 +2,14 @@
 import runpod
 import json
 
-VERSION = '2.1.824'
+VERSION = '2.1.865'
 TEMPLATE_NAME = f'Fooocus'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/fooocus:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
 # 3000 = Fooocus / 8888 = Jupyter
-PORTS = '3000/http,8888/http,22/tcp'
+PORTS = '3000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
 VOLUME_IN_GB = 50

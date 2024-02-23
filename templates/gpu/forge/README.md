@@ -1,26 +1,32 @@
 ## Stable Diffusion WebUI Forge
 
-### 1.0.0
+### 1.0.5
+
+**NOTE:** This template requires **CUDA 12.1** or higher, ensure that you use the CUDA filter to select the correct CUDA versions.
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
-* CUDA 11.8
+* CUDA 12.1
 * Python 3.10.12
 * [Stable Diffusion WebUI Forge](
   https://github.com/lllyasviel/stable-diffusion-webui-forge)
-* Torch 2.0.1
-* xformers 0.0.22
+* Torch 2.1.2
+* xformers 0.0.23.post1
+* Jupyter Lab
 * [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
 * [croc](https://github.com/schollz/croc)
 * [rclone](https://rclone.org/)
 
 ### Ports
 
-| Port | Description |
-|------|-------------|
-| 3000 | Forge       |
-| 8888 | Jupyter Lab |
+| Port | Description          |
+|------|----------------------|
+| 3000 | Forge                |
+| 8888 | Jupyter Lab          |
+| 2999 | RunPod File Uploader |
 
 ### Environment Variables
 

@@ -1,29 +1,42 @@
 ## Text Generation Web UI: A Gradio web UI for Large Language Models. Supports transformers, GPTQ, llama.cpp (GGUF), Llama models
 
-### Version 1.6.3
+>**NOTE:** This template requires at least *CUDA 12.1* to function correctly, please ensure that you use the CUDA filter at the top of the page to ensure that your pod gets the correct CUDA version.
+
+>**NOTE:** The legacy APIs no longer work with the latest version of the Text Generation Web UI.  They were deprecated since November 2023 and have now been completely removed. If you want to use the LEGACY APIs, please set the image tag to **1.9.5**.  You will also have to add port 6000 for the legacy REST API and/or port 6005 for the legacy Websockets API.
+
+### Version 1.12.4
+
+* The blocking and non-blocking APIs have been removed in favour of the Open AI compatible API.
+* The Open AI compatible API is now on port 5000.
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
-* CUDA 11.8
+* CUDA 12.1.1
 * Python 3.10.12
 * [Text Generation Web UI](
   https://github.com/oobabooga/text-generation-webui)
-* Text Generation API
-* Torch 2.0.1
-* xformers 0.0.22
+* [Legacy API Extension](https://github.com/ashleykleynhans/oobabooga-legacy-api-extension)
+* Torch 2.1.2
+* xformers 0.0.23post1
+* Jupyter Lab
 * [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
 * [croc](https://github.com/schollz/croc)
 * [rclone](https://rclone.org/)
+* speedtest-cli
+* screen
+* tmux
 
 ### Ports
 
-| Port | Description                    |
-|------|--------------------------------|
-| 3000 | Text Generation Web UI         |
-| 5000 | Text Generation REST API       |
-| 5005 | Text Generation Websockets API |
-| 8888 | Jupyter Lab                    |
+| Port | Description                 |
+|------|-----------------------------|
+| 3000 | Text Generation Web UI      |
+| 5000 | Open AI Compatible API      |
+| 8888 | Jupyter Lab                 |
+| 2999 | RunPod File Uploader        |
 
 ### Environment Variables
 

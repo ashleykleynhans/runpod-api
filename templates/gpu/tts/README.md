@@ -1,6 +1,6 @@
-## TTS Generation Web UI (Bark, MusicGen + AudioGen, Tortoise, RVC, Vocos, Demucs)
+## TTS Generation Web UI (Bark, MusicGen + AudioGen, Tortoise, RVC, Vocos, Demucs, SeamlessM4T, MAGNeT)
 
-### Version 1.0.5
+### Version 2.0.4
 
 ### Included in this Template
 
@@ -9,15 +9,25 @@
 * Python 3.10.12
 * [TTS Generation Web UI](
   https://github.com/rsxdalv/tts-generation-webui)
-* Torch 2.0.1
+* Torch 2.0.0
 * xformers 0.0.19
+* Jupyter Lab
+* [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
+* [croc](https://github.com/schollz/croc)
+* [rclone](https://rclone.org/
+* screen
+* tmux
 
 ### Ports
 
-| Port | Description           |
-|------|-----------------------|
-| 3000 | TTS Generation Web UI |
-| 8888 | Jupyter Lab           |
+| Port | Description                        |
+|------|------------------------------------|
+| 3000 | Gradio TTS Generation Web UI       |
+| 3005 | React TTS Generation Web UI (beta) |
+| 8888 | Jupyter Lab                        |
+| 2999 | RunPod File Uploader               |
 
 ### Environment Variables
 

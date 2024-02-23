@@ -2,14 +2,14 @@
 import runpod
 import json
 
-VERSION = '1.0.0'
+VERSION = '2.3.1'
 TEMPLATE_NAME = f'FaceFusion Face Swapper and Enhancer'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/facefusion:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = FaceFusion / 8888 = Jupyter
-PORTS = '3000/http,8888/http,22/tcp'
+# 3000 = FaceFusion / 8888 = Jupyter / 2999 = RunPod Upload Manager
+PORTS = '3000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
 VOLUME_IN_GB = 50

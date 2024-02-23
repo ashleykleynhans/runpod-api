@@ -1,6 +1,6 @@
 ## FaceFusion: Next generation face swapper and enhancer
 
-### Version 1.1.1
+### Version 2.3.1
 
 ### Included in this Template
 
@@ -8,23 +8,31 @@
 * CUDA 11.8
 * Python 3.10.12
 * [FaceFusion](
-  https://github.com/facefusion/facefusion) 1.1.0
-* Torch 2.0.1
-* xformers 0.0.21
+  https://github.com/facefusion/facefusion) 2.3.0
+* Torch 2.1.2
+* Jupyter Lab
+* [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
+* [croc](https://github.com/schollz/croc)
+* [rclone](https://rclone.org/)
+* screen
+* tmux
 
 ### Ports
 
-| Port | Description |
-|------|-------------|
-| 3000 | FaceFusion  |
-| 8888 | Jupyter Lab |
+| Port | Description          |
+|------|----------------------|
+| 3000 | FaceFusion           |
+| 8888 | Jupyter Lab          |
+| 2999 | RunPod File Uploader |
 
 ### Environment Variables
 
-| Variable           | Description                                     | Default  |
-|--------------------|-------------------------------------------------|----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                        | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable FaceFusion from launching automatically | enabled  |
+| Variable           | Description                                     | Default    |
+|--------------------|-------------------------------------------------|------------|
+| JUPYTER_PASSWORD   | Password for Jupyter Lab                        | Jup1t3R!   |
+| DISABLE_AUTOLAUNCH | Disable FaceFusion from launching automatically | (not set)  |
 
 ## Logs
 

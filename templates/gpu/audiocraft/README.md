@@ -1,6 +1,6 @@
 ## Audiocraft Plus Music and Audio Generation
 
-### Version 3.0.3 now in Stereo!
+### Version 3.0.6
 
 ### Included in this Template
 
@@ -10,14 +10,21 @@
 * [Audiocraft Plus](
   https://github.com/GrandaddyShmax/audiocraft_plus) v2.0.1
 * Torch 2.0.1
-* xformers 0.0.21
+* xformers 0.0.22
+* Jupyter Lab
+* [runpodctl](https://github.com/runpod/runpodctl)
+* [OhMyRunPod](https://github.com/kodxana/OhMyRunPod)
+* [RunPod File Uploader](https://github.com/kodxana/RunPod-FilleUploader)
+* [croc](https://github.com/schollz/croc)
+* [rclone](https://rclone.org/)
 
 ### Ports
 
-| Port | Description     |
-|------|-----------------|
-| 3000 | Audiocraft Plus |
-| 8888 | Jupyter Lab     |
+| Port | Description          |
+|------|----------------------|
+| 3000 | Audiocraft Plus      |
+| 8888 | Jupyter Lab          |
+| 2999 | RunPod File Uploader |
 
 ### Environment Variables
 

@@ -2,17 +2,17 @@
 import runpod
 import json
 
-VERSION = '1.6.1'
-TEMPLATE_NAME = f'SDiffusion Dreambooth ControlNet Deforum Kohya'
+VERSION = '3.12.3'
+TEMPLATE_NAME = f'Stable Diffusion Kohya_ss ComfyUI Ultimate'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = WebU / 3010 = Kohya_ss / 6006 = Tensorboard / 8888 = Jupyter
-PORTS = '3000/http,3010/http,6006/http,8888/http,22/tcp'
+# 3000 = WebU / 3010 = Kohya_ss / 6006 = Tensorboard / 8888 = Jupyter / 2999 = RunPod File Uploader
+PORTS = '3000/http,3010/http,6006/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 75
+VOLUME_IN_GB = 100
 VOLUME_MOUNT_PATH = '/workspace'
 
 
