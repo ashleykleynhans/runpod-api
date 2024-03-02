@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.0.1'
+VERSION = '1.4.0'
 TEMPLATE_NAME = f'SUPIR Upscaling and Restoration'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/supir:{VERSION}'
@@ -12,7 +12,7 @@ IS_SERVERLESS = False
 PORTS = '3000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 60
+VOLUME_IN_GB = 80
 VOLUME_MOUNT_PATH = '/workspace'
 
 
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/SUPIR"
             }}
         ],
         imageName: "{IMAGE_NAME}",

@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/llava"
             }}
         ],
         imageName: "{IMAGE_NAME}",

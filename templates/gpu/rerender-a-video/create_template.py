@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.0.4'
+VERSION = '1.0.5'
 TEMPLATE_NAME = 'Rerender A Video'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/rerender-a-video:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/rerender_a_video"
             }}
         ],
         imageName: "{IMAGE_NAME}",

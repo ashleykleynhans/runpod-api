@@ -1,6 +1,6 @@
-## Rerender A Video - Official PyTorch Implementation
+# Rerender A Video - Official PyTorch Implementation
 
-### Version 1.0.4
+## Version 1.0.5
 
 ### Included in this Template
 
@@ -20,7 +20,7 @@
 * screen
 * tmux
 
-### Ports
+## Ports
 
 | Port | Description          |
 |------|----------------------|
@@ -28,7 +28,7 @@
 | 8888 | Jupyter Lab          |
 | 2999 | RunPod File Uploader |
 
-### Environment Variables
+## Environment Variables
 
 | Variable           | Description                                           | Default  |
 |--------------------|-------------------------------------------------------|----------|
@@ -50,14 +50,7 @@ For example:
 tail -f /workspace/logs/Rerender_A_Video.log
 ```
 
-### Jupyter Lab
-
-If you wish to use the Jupyter lab, you must set
-the **JUPYTER_PASSWORD** environment variable in the
-Template Overrides configuration when deploying
-your pod.
-
-### General
+## General
 
 Note that this does not work out of the box with
 encrypted volumes!
@@ -73,10 +66,10 @@ to ask me, but just keep in mind that I am not an expert
 at Rerender A Video! I'll try my best to help, but the
 RunPod community may be better at helping you.
 
-### Uploading to Google Drive
+## Uploading to Google Drive
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using **runpodctl**. You run the **runpodctl** either in
+using `runpodctl`. You run the `runpodctl` either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

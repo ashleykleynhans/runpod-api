@@ -1,10 +1,10 @@
-## Text Generation Web UI: A Gradio web UI for Large Language Models. Supports transformers, GPTQ, llama.cpp (GGUF), Llama models
+# Text Generation Web UI: A Gradio web UI for Large Language Models. Supports transformers, GPTQ, llama.cpp (GGUF), Llama models
 
->**NOTE:** This template requires at least *CUDA 12.1* to function correctly, please ensure that you use the CUDA filter at the top of the page to ensure that your pod gets the correct CUDA version.
+>**NOTE:** This template requires at least **CUDA 12.1** to function correctly, please ensure that you use the CUDA filter at the top of the page to ensure that your pod gets the correct CUDA version.
 
 >**NOTE:** The legacy APIs no longer work with the latest version of the Text Generation Web UI.  They were deprecated since November 2023 and have now been completely removed. If you want to use the LEGACY APIs, please set the image tag to **1.9.5**.  You will also have to add port 6000 for the legacy REST API and/or port 6005 for the legacy Websockets API.
 
-### Version 1.12.4
+## Version 1.12.6
 
 * The blocking and non-blocking APIs have been removed in favour of the Open AI compatible API.
 * The Open AI compatible API is now on port 5000.
@@ -29,7 +29,7 @@
 * screen
 * tmux
 
-### Ports
+## Ports
 
 | Port | Description                 |
 |------|-----------------------------|
@@ -38,12 +38,12 @@
 | 8888 | Jupyter Lab                 |
 | 2999 | RunPod File Uploader        |
 
-### Environment Variables
+## Environment Variables
 
-| Variable           | Description                                     | Default  |
-|--------------------|-------------------------------------------------|----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                        | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable the Web UI from launching automatically | enabled  |
+| Variable           | Description                                  | Default                                |
+|--------------------|----------------------------------------------|----------------------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app | /workspace/venvs/text-generation-webui |
+| DISABLE_AUTOLAUNCH | Disable Web UI from launching automatically  | (not set)                              |
 
 ## Logs
 
@@ -60,14 +60,7 @@ For example:
 tail -f /workspace/logs/textgen.log
 ```
 
-### Jupyter Lab
-
-If you wish to use the Jupyter lab, you must set
-the **JUPYTER_PASSWORD** environment variable in the
-Template Overrides configuration when deploying
-your pod.
-
-### General
+## General
 
 Note that this does not work out of the box with
 encrypted volumes!
@@ -84,10 +77,10 @@ to ask me, but just keep in mind that I am not an expert
 at the Text Generation Web UI! I'll try my best to help, but the
 RunPod community may be better at helping you.
 
-### Uploading to Google Drive
+## Uploading to Google Drive
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using **runpodctl**. You run the **runpodctl** either in
+using `runpodctl`. You run the `runpodctl` either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

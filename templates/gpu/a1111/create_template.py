@@ -2,17 +2,17 @@
 import runpod
 import json
 
-VERSION = '1.0.0'
-TEMPLATE_NAME = f'Würstchen Efficient Pretraining of Text-to-Image Models'
+VERSION = '1.8.0'
+TEMPLATE_NAME = f'A1111 Stable Diffusion {VERSION}'
 CONTAINER_DISK_IN_GB = 10
-IMAGE_NAME = f'ashleykza/wuerstchen:{VERSION}'
+IMAGE_NAME = f'ashleykza/a1111:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = Wuerstchen / 8888 = Jupyter
-PORTS = '3000/http,8888/http,22/tcp'
+# 3000 = WebU / / 8888 = Jupyter / 2999 = RunPod File Uploader
+PORTS = '3000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 50
+VOLUME_IN_GB = 80
 VOLUME_MOUNT_PATH = '/workspace'
 
 
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/stable-diffusion-webui"
             }}
         ],
         imageName: "{IMAGE_NAME}",

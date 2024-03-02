@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '2.0.4'
+VERSION = '2.0.5'
 TEMPLATE_NAME = 'Text To Speech Generation Web UI'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/tts-generation:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/tts-generation-webui"
             }}
         ],
         imageName: "{IMAGE_NAME}",

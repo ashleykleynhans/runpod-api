@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '2.1.865'
+VERSION = '2.2.0'
 TEMPLATE_NAME = f'Fooocus'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/fooocus:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/fooocus"
             }}
         ],
         imageName: "{IMAGE_NAME}",

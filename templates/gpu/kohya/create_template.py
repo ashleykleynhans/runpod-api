@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.12.3'
+VERSION = '1.12.5'
 TEMPLATE_NAME = f'Kohya_ss'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/kohya:{VERSION}'
@@ -25,12 +25,7 @@ if __name__ == '__main__':
     template = f"""
         containerDiskInGb: {CONTAINER_DISK_IN_GB},
         dockerArgs: "",
-        env: [
-            {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
-            }}
-        ],
+        env: [],
         imageName: "{IMAGE_NAME}",
         isPublic: {str(IS_PUBLIC).lower()},
         isServerless: {str(IS_SERVERLESS).lower()},

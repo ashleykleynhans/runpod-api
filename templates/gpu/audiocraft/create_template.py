@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '3.0.6'
+VERSION = '3.0.7'
 TEMPLATE_NAME = f'AudioCraft Plus Music and Audio Generation'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/audiocraft:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/audiocraft_plus"
             }}
         ],
         imageName: "{IMAGE_NAME}",

@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '2.3.1'
+VERSION = '2.3.2'
 TEMPLATE_NAME = f'FaceFusion Face Swapper and Enhancer'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/facefusion:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/facefusion"
             }}
         ],
         imageName: "{IMAGE_NAME}",

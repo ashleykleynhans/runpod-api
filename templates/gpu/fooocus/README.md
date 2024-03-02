@@ -1,13 +1,13 @@
-## Fooocus: Focus on prompting and generating
+# Fooocus: Focus on prompting and generating
 
-### Version 2.1.865
+## Version 2.2.0
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
 * CUDA 11.8
 * Python 3.10.12
-* [Fooocus](https://github.com/lllyasviel/Fooocus) 2.1.865
+* [Fooocus](https://github.com/lllyasviel/Fooocus) 2.2.0
 * Torch 2.0.1
 * xformers 0.0.22
 * Jupyter Lab
@@ -17,21 +17,21 @@
 * [croc](https://github.com/schollz/croc)
 * [rclone](https://rclone.org/)
 
-### Ports
+## Ports
 
-| Port | Description          |
-|------|----------------------|
-| 3000 | Fooocus              |
-| 8888 | Jupyter Lab          |
+| Port | Description |
+|------|-------------|
+| 3000 | Fooocus     |
+| 8888 | Jupyter Lab |
 | 2999 | RunPod File Uploader |
 
-### Environment Variables
+## Environment Variables
 
-| Variable           | Description                                  | Default   |
-|--------------------|----------------------------------------------|-----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                     | Jup1t3R!  |
-| DISABLE_AUTOLAUNCH | Disable Fooocus from launching automatically | (not set) |
-| PRESET             | Fooocus Preset (anime/realistic)             | (not set) |
+| Variable           | Description                                  | Default                  |
+|--------------------|----------------------------------------------|--------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app | /workspace/venvs/fooocus |
+| DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | (not set)                |
+| PRESET             | Fooocus Preset (anime/realistic)             | (not set)                |
 
 
 ## Logs
@@ -49,14 +49,7 @@ For example:
 tail -f /workspace/logs/fooocus.log
 ```
 
-### Jupyter Lab
-
-If you wish to use the Jupyter lab, you must set
-the **JUPYTER_PASSWORD** environment variable in the
-Template Overrides configuration when deploying
-your pod.
-
-### General
+## General
 
 Note that this does not work out of the box with
 encrypted volumes!
@@ -72,10 +65,10 @@ to ask me, but just keep in mind that I am not an expert
 at Fooocus! I'll try my best to help, but the
 RunPod community may be better at helping you.
 
-### Uploading to Google Drive
+## Uploading to Google Drive
 
 If you're done with the pod and would like to send
 things to Google Drive, you can use this colab to do it
-using **runpodctl**. You run the **runpodctl** either in
+using `runpodctl`. You run the `runpodctl` either in
 a web terminal (found in the pod connect menu), or
 in a terminal on the desktop.

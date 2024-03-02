@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.0.5'
+VERSION = '1.1.1'
 TEMPLATE_NAME = f'Stable Diffusion WebUI Forge'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/forge:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/stable-diffusion-webui-forge"
             }}
         ],
         imageName: "{IMAGE_NAME}",

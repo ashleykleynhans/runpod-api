@@ -1,6 +1,6 @@
-## LLaVA: Large Language and Vision Assistant
+# LLaVA: Large Language and Vision Assistant
 
-### Version 1.4.4 (LLaVA 1.6)
+## Version 1.4.5 (LLaVA 1.6)
 
 **NOTE:** Although the container logs may say that the Container is READY and port 3000 is accessible,
 the model worker will still need to download the model the first time you create the pod, and since the model
@@ -29,7 +29,7 @@ and a GPU with 24GB of VRAM if you want to use the 7b model.
 * tmux
 * llava-v1.6-mistral-7b model
 
-### Ports
+## Ports
 
 | Port | Description          |
 |------|----------------------|
@@ -37,15 +37,15 @@ and a GPU with 24GB of VRAM if you want to use the 7b model.
 | 8888 | Jupyter Lab          |
 | 2999 | RunPod File Uploader |
 
-### Environment Variables
+## Environment Variables
 
-| Variable           | Description                                 | Default                          |
-|--------------------|---------------------------------------------|----------------------------------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                    | Jup1t3R!                         |
-| DISABLE_AUTOLAUNCH | Disable LLaVA from launching automatically  | enabled                          |
-| MODEL              | The path of the Huggingface model           | liuhaotian/llava-v1.6-mistral-7b |
+| Variable           | Description                                  | Default                          |
+|--------------------|----------------------------------------------|----------------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app | /workspace/venvs/llava           |
+| DISABLE_AUTOLAUNCH | Disable LLaVA from launching automatically   | enabled                          |
+| MODEL              | The path of the Huggingface model            | liuhaotian/llava-v1.6-mistral-7b |
 
-#### Models
+## Models
 
 **NOTE:**
 > If you select a 13B or larger model, CUDA will result in OOM errors
@@ -67,11 +67,11 @@ variable is not set, the model will default to `liuhaotian/llava-v1.6-mistral-7b
 
 ### LLaVA-v1.5
 
-| Model                                                                            | Environment Variable Value       | Version   | Size | Default |
-|----------------------------------------------------------------------------------|----------------------------------|-----------|------|---------|
-| [llava-v1.5-7b](https://huggingface.co/liuhaotian/llava-v1.5-7b)                 | liuhaotian/llava-v1.5-7b         | LLaVA-1.5 | 7B   | no      |
-| [llava-v1.5-13b](https://huggingface.co/liuhaotian/llava-v1.5-13b)               | liuhaotian/llava-v1.5-13b        | LLaVA-1.5 | 13B  | no      |
-| [BakLLaVA-1](https://huggingface.co/SkunkworksAI/BakLLaVA-1)                     | SkunkworksAI/BakLLaVA-1          | LLaVA-1.5 | 7B   | no      |
+| Model                                                              | Environment Variable Value       | Version   | Size | Default |
+|--------------------------------------------------------------------|----------------------------------|-----------|------|---------|
+| [llava-v1.5-7b](https://huggingface.co/liuhaotian/llava-v1.5-7b)   | liuhaotian/llava-v1.5-7b         | LLaVA-1.5 | 7B   | no      |
+| [llava-v1.5-13b](https://huggingface.co/liuhaotian/llava-v1.5-13b) | liuhaotian/llava-v1.5-13b        | LLaVA-1.5 | 13B  | no      |
+| [BakLLaVA-1](https://huggingface.co/SkunkworksAI/BakLLaVA-1)       | SkunkworksAI/BakLLaVA-1          | LLaVA-1.5 | 7B   | no      |
 
 ## Logs
 
@@ -90,14 +90,7 @@ For example:
 tail -f /workspace/logs/webserver.log
 ```
 
-### Jupyter Lab
-
-If you wish to use the Jupyter lab, you must set
-the **JUPYTER_PASSWORD** environment variable in the
-Template Overrides configuration when deploying
-your pod.
-
-### General
+## General
 
 Note that this does not work out of the box with
 encrypted volumes!

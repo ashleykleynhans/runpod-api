@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.12.4'
+VERSION = '1.12.6'
 TEMPLATE_NAME = f'Text Generation Web UI and API'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/oobabooga:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/text-generation-webui"
             }}
         ],
         imageName: "{IMAGE_NAME}",

@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '1.1.4'
+VERSION = '2.0.1'
 TEMPLATE_NAME = f'InstantID'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/instantid:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/instantid"
             }}
         ],
         imageName: "{IMAGE_NAME}",
