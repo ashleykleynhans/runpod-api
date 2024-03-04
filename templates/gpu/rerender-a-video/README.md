@@ -30,10 +30,10 @@
 
 ## Environment Variables
 
-| Variable           | Description                                           | Default  |
-|--------------------|-------------------------------------------------------|----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                              | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable Rerender A Video from launching automatically | enabled  |
+| Variable           | Description                                           | Default                           |
+|--------------------|-------------------------------------------------------|-----------------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app          | /workspace/venvs/rerender_a_video |
+| DISABLE_AUTOLAUNCH | Disable Rerender a Video from launching automatically | (not set)                         |
 
 ## Logs
 

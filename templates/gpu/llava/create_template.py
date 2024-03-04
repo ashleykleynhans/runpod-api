@@ -2,8 +2,8 @@
 import runpod
 import json
 
-VERSION = '1.4.4'
-TEMPLATE_NAME = f'LLaVA'
+VERSION = '1.4.5'
+TEMPLATE_NAME = f'LLaVA 1.6'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/llava:{VERSION}'
 IS_PUBLIC = True

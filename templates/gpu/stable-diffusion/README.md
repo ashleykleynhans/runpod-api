@@ -1,22 +1,25 @@
-## Automatic1111 Stable Diffusion WebUI, Kohya SS and ComfyUI
+# Automatic1111 Stable Diffusion WebUI, Kohya SS and ComfyUI
 
-### Version 3.12.4 with SDXL support and ControlNet SDXL support
+## Version 4.0.0
 
 ### Included in this Template
 
 * Ubuntu 22.04 LTS
 * CUDA 11.8
 * Python 3.10.12
+* Torch 2.0.1
+* xformers 0.0.22
+* Jupyter Lab
 * [Automatic1111 Stable Diffusion Web UI](
-  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.7.0
+  https://github.com/AUTOMATIC1111/stable-diffusion-webui.git) 1.8.0
 * [Dreambooth extension](
   https://github.com/d8ahazard/sd_dreambooth_extension) 1.0.14
 * [Deforum extension](
   https://github.com/deforum-art/sd-webui-deforum)
 * [ControlNet extension](
-  https://github.com/Mikubill/sd-webui-controlnet) v1.1.440
+  https://github.com/Mikubill/sd-webui-controlnet) v1.1.441
 * [After Detailer extension](
-  https://github.com/Bing-su/adetailer) v24.1.2
+  https://github.com/Bing-su/adetailer) v24.3.0
 * [Locon extension](
   https://github.com/ashleykleynhans/a1111-sd-webui-locon)
 * [ReActor extension](https://github.com/Gourieff/sd-webui-reactor) (replaces roop)
@@ -24,11 +27,8 @@
 * [Infinite Image Browsing extension](https://github.com/zanllp/sd-webui-infinite-image-browsing)
 * [CivitAI extension](https://github.com/civitai/sd_civitai_extension)
 * [CivitAI Browser+ extension](https://github.com/BlafKing/sd-civitai-browser-plus)
-* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v22.6.1
+* [Kohya_ss](https://github.com/bmaltais/kohya_ss) v22.6.2
 * [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
-* Torch 2.0.1
-* xformers 0.0.22
-* Jupyter Lab
 * sd_xl_base_1.0.safetensors
 * sd_xl_refiner_1.0.safetensors
 * sdxl_vae.safetensors
@@ -40,7 +40,7 @@
 * [rclone](https://rclone.org/)
 * [Application Manager](https://github.com/ashleykleynhans/app-manager)
 
-### Ports
+## Ports
 
 | Connect Port | Internal Port | Description                   |
 |--------------|---------------|-------------------------------|
@@ -56,13 +56,13 @@ You can use the Application Manager to stop and start
 the applications.  This can be useful for stopping the
 A1111 Web UI if you want to train using Kohya_ss for example.
 
-### Environment Variables
+## Environment Variables
 
-| Variable           | Description                                  | Default  |
-|--------------------|----------------------------------------------|----------|
-| JUPYTER_PASSWORD   | Password for Jupyter Lab                     | Jup1t3R! |
-| DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | enabled  |
-| ENABLE_TENSORBOARD | Enables Tensorboard on port 6006             | enabled  |
+| Variable           | Description                                  | Default                                 |
+|--------------------|----------------------------------------------|-----------------------------------------|
+| VENV_PATH          | Set the path for the Python venv for the app | /workspace/venvs/stable-diffusion-webui |
+| DISABLE_AUTOLAUNCH | Disable Web UIs from launching automatically | enabled                                 |
+| ENABLE_TENSORBOARD | Enables Tensorboard on port 6006             | enabled                                 |
 
 ## Logs
 
@@ -82,14 +82,7 @@ For example:
 tail -f /workspace/logs/webui.log
 ```
 
-### Jupyter Lab
-
-If you wish to use the Jupyter lab, you must set
-the **JUPYTER_PASSWORD** environment variable in the
-Template Overrides configuration when deploying
-your pod.
-
-### General
+## General
 
 Note that this does not work out of the box with
 encrypted volumes!
@@ -104,22 +97,21 @@ I do not maintain the code for any of these repos,
 I just package everything together so that it is
 easier for you to use.
 
-### Changing launch parameters
+## Changing launch parameters
 
 You may be used to changing a different file for your
-launch parameters. This template uses **webui-user.sh**,
+launch parameters. This template uses `webui-user.sh`,
 which is located in the webui directory
-(**/workspace/stable-diffusion-webui**) to manage the
-launch flags such as **--xformers**. You can feel free
-to edit this file, and then restart your pod via the
-hamburger menu to get them to go into effect, or
-alternatively just use **fuser -k 3001/tcp** and start
-the **/workspace/stable-diffusion-webui/webui.sh -f**
-script again.
+(`/workspace/stable-diffusion-webui`) to manage the
+launch flags such as `--xformers` and `--skip-install`.
+You can feel free to edit this file, and then restart
+your pod via the hamburger menu to get them to go into
+effect, or alternatively use the Application Manager
+on port 8000 to stop A1111 and start it again.
 
-### Using your own models
+## Using your own models
 
 The best ways to get your models onto your pod is
-by using **runpodctl** or **croc** or by uploading them to Google
+by using `runpodctl` or `croc` or by uploading them to Google
 Drive or other cloud storage and downloading them
 to your pod from there.

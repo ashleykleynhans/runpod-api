@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '3.12.3'
+VERSION = '4.0.0'
 TEMPLATE_NAME = f'Stable Diffusion Kohya_ss ComfyUI Ultimate'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
@@ -27,8 +27,8 @@ if __name__ == '__main__':
         dockerArgs: "",
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/stable-diffusion-webui"
             }},
             {{
                 key: "ENABLE_TENSORBOARD",

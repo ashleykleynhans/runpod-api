@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '3.0.7'
+VERSION = '3.0.8'
 TEMPLATE_NAME = f'AudioCraft Plus Music and Audio Generation'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/audiocraft:{VERSION}'
