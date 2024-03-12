@@ -4,7 +4,7 @@ import json
 import time
 import runpod
 
-VERSION = '3.12.4'
+VERSION = '4.2.2'
 NAME = f'stable-diffusion-webui {VERSION}'
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
 GPU_TYPE_ID = 'NVIDIA RTX A5000'
@@ -13,7 +13,7 @@ PERSISTENT_DISK_SIZE_GB = 100
 CLOUD_TYPE = 'COMMUNITY'
 COUNTRY_CODE = 'SK,SE,BE,BG,CA,CZ,NL'
 MIN_DOWNLOAD = 700
-ALLOWED_CUDA_VERSIONS = ['11.8', '12.0', '12.1', '12.2']
+ALLOWED_CUDA_VERSIONS = ['11.8', '12.0', '12.1', '12.2', '12.3']
 PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http,2999/http'
 
 
@@ -39,8 +39,8 @@ def create_on_demand_pod():
         startSsh: true,
         env: [
             {{
-                key: "JUPYTER_PASSWORD",
-                value: "Jup1t3R!"
+                key: "VENV_PATH",
+                value: "/workspace/venvs/stable-diffusion-webui"
             }},
             {{
                 key: "ENABLE_TENSORBOARD",
