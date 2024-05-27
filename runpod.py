@@ -137,25 +137,6 @@ class API(object):
                             version
                             volumeEncrypted
                             volumeMountPath
-                            runtime {
-                                uptimeInSeconds
-                                ports {
-                                    ip
-                                    isIpPublic
-                                    privatePort
-                                    publicPort
-                                    type
-                                }
-                                gpus {
-                                    id
-                                    gpuUtilPercent
-                                    memoryUtilPercent
-                                }
-                                container {
-                                    cpuPercent
-                                    memoryPercent
-                                }
-                            }
                             machine {
                                 podHostId
                             }
