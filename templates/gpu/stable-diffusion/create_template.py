@@ -2,14 +2,14 @@
 import runpod
 import json
 
-VERSION = '4.0.0'
-TEMPLATE_NAME = f'Stable Diffusion Kohya_ss ComfyUI Ultimate'
-CONTAINER_DISK_IN_GB = 10
+VERSION = '8.0.0'
+TEMPLATE_NAME = 'ULTIMATE Stable Diffusion Kohya ComfyUI InvokeAI'
+CONTAINER_DISK_IN_GB = 20
 IMAGE_NAME = f'ashleykza/stable-diffusion-webui:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = WebU / 3010 = Kohya_ss / 6006 = Tensorboard / 8888 = Jupyter / 2999 = RunPod File Uploader
-PORTS = '3000/http,3010/http,6006/http,8888/http,2999/http,22/tcp'
+# 3000 = WebU / 3010 = Kohya_ss / 3020 = ComfyUI / 9090 = InvokeAI / 6006 = Tensorboard / 7777 = Code Server / 8000 = Application Manager / 8888 = Jupyter / 2999 = RunPod File Uploader
+PORTS = '3000/http,3010/http,3020/http,6006/http,9090/http,7777/http,8000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
 VOLUME_IN_GB = 100
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         env: [
             {{
                 key: "VENV_PATH",
-                value: "/workspace/venvs/stable-diffusion-webui"
+                value: "/workspace/venvs/a1111"
             }},
             {{
                 key: "ENABLE_TENSORBOARD",

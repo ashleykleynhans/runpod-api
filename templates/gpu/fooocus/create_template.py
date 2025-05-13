@@ -2,7 +2,7 @@
 import runpod
 import json
 
-VERSION = '2.2.0'
+VERSION = '2.2.1'
 TEMPLATE_NAME = f'Fooocus'
 CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/fooocus:{VERSION}'

@@ -177,8 +177,6 @@ class API(object):
                         templateEarned
                         multiFactorEnabled
                         clientBalance
-                        clientLifetimeSpend
-                        referralId
                         hostBalance
                         underBalance
                         minBalance

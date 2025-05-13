@@ -2,17 +2,17 @@
 import runpod
 import json
 
-VERSION = '1.10.1'
-TEMPLATE_NAME = f'A1111 Stable Diffusion {VERSION}'
+VERSION = '1.0.0'
+TEMPLATE_NAME = 'FramePack'
 CONTAINER_DISK_IN_GB = 10
-IMAGE_NAME = f'ashleykza/a1111:{VERSION}'
+IMAGE_NAME = f'ashleykza/framepack:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = WebU / 7777 = Code Server / 8000 = Application Manager / 8888 = Jupyter / 2999 = RunPod File Uploader
-PORTS = '3000/http,7777/http,8000/http,8888/http,2999/http,22/tcp'
+# 3000 = FramePack / 7777 = Code Server / 8888 = Jupyter / 2999 = RunPod File Uploader
+PORTS = '3000/http,7777/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
-VOLUME_IN_GB = 80
+VOLUME_IN_GB = 100
 VOLUME_MOUNT_PATH = '/workspace'
 
 
@@ -25,12 +25,7 @@ if __name__ == '__main__':
     template = f"""
         containerDiskInGb: {CONTAINER_DISK_IN_GB},
         dockerArgs: "",
-        env: [
-            {{
-                key: "VENV_PATH",
-                value: "/workspace/venvs/stable-diffusion-webui"
-            }}
-        ],
+        env: [],
         imageName: "{IMAGE_NAME}",
         isPublic: {str(IS_PUBLIC).lower()},
         isServerless: {str(IS_SERVERLESS).lower()},

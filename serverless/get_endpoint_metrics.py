@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import runpod
+import json
 from prettytable import PrettyTable
 
 
@@ -35,6 +36,7 @@ if __name__ == '__main__':
 
     if response.status_code == 200:
         resp_json = response.json()
+        print(json.dumps(resp_json, indent=4, default=str))
 
         if 'errors' in resp_json:
             print('ERROR:')

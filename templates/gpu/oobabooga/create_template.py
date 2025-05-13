@@ -2,14 +2,14 @@
 import runpod
 import json
 
-VERSION = '1.12.7'
-TEMPLATE_NAME = f'Text Generation Web UI and API'
-CONTAINER_DISK_IN_GB = 10
+VERSION = 'v3.2'
+TEMPLATE_NAME = 'Text Generation Web UI and API'
+CONTAINER_DISK_IN_GB = 20
 IMAGE_NAME = f'ashleykza/oobabooga:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = Web UI / 5000 REST API / 2999 RunPod File Uploader / 8888 = Jupyter
-PORTS = '3000/http,5000/http,2999/http,8888/http,22/tcp'
+# 3000 = Web UI / 5000 REST API / 2999 RunPod File Uploader / 7777 = Code Server / 8888 = Jupyter
+PORTS = '3000/http,5000/http,2999/http,7777/http,8888/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
 VOLUME_IN_GB = 100
