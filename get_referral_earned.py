@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import runpod
 import json
+import time
 from colorama import Fore, Style, init
 
 
@@ -16,6 +17,11 @@ if __name__ == '__main__':
         total_earned = referral_earned + template_earned
 
         init(autoreset=True)
+
+        print(f"{Fore.LIGHTWHITE_EX}  Runpod Referral Earnings Summary:")
+        # print the date and time in the format YYYY-MM-DD HH:MM:SS
+        print(f"{Fore.LIGHTWHITE_EX}  Date: {Fore.WHITE}           {time.strftime('%Y-%m-%d %H:%M:%S')}")
+
 
         print(f"{Fore.CYAN}  Referral Earned: {Fore.CYAN}{referral_earned}")
         print(f"{Fore.CYAN}  Template Earned: {Fore.CYAN}{template_earned}")
