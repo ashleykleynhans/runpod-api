@@ -1,3 +1,4 @@
 httpx
 python-dotenv
 prettytable
+colorama
