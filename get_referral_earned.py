@@ -8,9 +8,9 @@ from colorama import Fore, Style, init
 if __name__ == '__main__':
     runpod = runpod.API()
     response = runpod.get_myself()
-    resp_json = response.json()
 
     if response.status_code == 200:
+        resp_json = response.json()
         myself = resp_json['data']['myself']
         referral_earned = myself.get('referralEarned')
         template_earned = myself.get('templateEarned')
@@ -29,4 +29,11 @@ if __name__ == '__main__':
     else:
         print('ERROR:')
         print(f'Status code: {response.status_code}')
-        print(json.dumps(resp_json, indent=4, default=str))
+        print(f'Response text: {response.text}')
+
+        # Try to parse JSON if possible
+        try:
+            resp_json = response.json()
+            print(json.dumps(resp_json, indent=4, default=str))
+        except json.JSONDecodeError:
+            print('Response is not valid JSON')
