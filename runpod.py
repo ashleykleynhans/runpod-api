@@ -156,6 +156,37 @@ class API(object):
             """
         }, True)
 
+    def get_templates_and_endpoints(self):
+        return self._run_query({
+            "query": """
+                query myself {
+                    myself {
+                        podTemplates {
+                            id
+                            name
+                            imageName
+                            isPublic
+                            isRunpod
+                            isServerless
+                        }
+                        endpoints {
+                            gpuIds
+                            id
+                            name
+                            templateId
+                            template {
+                                name
+                                imageName
+                            }
+                            workersMax
+                            workersMin
+                            workersStandby
+                        }
+                    }
+                }
+            """
+        }, True)
+
     def get_myself(self):
         return self._run_query({
             "query": """
