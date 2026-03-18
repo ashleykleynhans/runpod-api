@@ -187,6 +187,22 @@ class API(object):
             """
         }, True)
 
+    def get_network_volumes(self):
+        return self._run_query({
+            "query": """
+                query myself {
+                    myself {
+                        networkVolumes {
+                            id
+                            name
+                            size
+                            dataCenterId
+                        }
+                    }
+                }
+            """
+        }, True)
+
     def get_myself(self):
         return self._run_query({
             "query": """
@@ -650,6 +666,57 @@ class Serverless(object):
                     }}
                 }}
             """.format(endpoint_id=endpoint_id, template_id=template_id)
+        }, True, 'https://api.runpod.io/graphql')
+
+    def create_endpoint(self, name: str, template_id: str, gpu_ids: str, network_volume_id: str = None,
+                        workers_min: int = 0, workers_max: int = 3, idle_timeout: int = 5,
+                        locations: str = None, scaler_type: str = 'QUEUE_DELAY', scaler_value: int = 4):
+        network_volume_str = ''
+        if network_volume_id:
+            network_volume_str = f', networkVolumeId: "{network_volume_id}"'
+
+        locations_str = ''
+        if locations:
+            locations_str = f', locations: "{locations}"'
+
+        return self._run_query({
+            "query": """
+                mutation {{
+                    saveEndpoint(input: {{
+                        name: "{name}",
+                        templateId: "{template_id}",
+                        gpuIds: "{gpu_ids}",
+                        workersMin: {workers_min},
+                        workersMax: {workers_max},
+                        idleTimeout: {idle_timeout},
+                        scalerType: "{scaler_type}",
+                        type: "QB",
+                        scalerValue: {scaler_value}
+                        {network_volume_str}
+                        {locations_str}
+                    }}) {{
+                        id
+                        name
+                        templateId
+                        gpuIds
+                        workersMin
+                        workersMax
+                        idleTimeout
+                        networkVolumeId
+                    }}
+                }}
+            """.format(
+                name=name,
+                template_id=template_id,
+                gpu_ids=gpu_ids,
+                workers_min=workers_min,
+                workers_max=workers_max,
+                idle_timeout=idle_timeout,
+                scaler_type=scaler_type,
+                scaler_value=scaler_value,
+                network_volume_str=network_volume_str,
+                locations_str=locations_str
+            )
         }, True, 'https://api.runpod.io/graphql')
 
     def get_serverless_logs(self, endpoint_id: str, start: str, end: str, batch_size: int):
