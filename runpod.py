@@ -639,6 +639,32 @@ class Serverless(object):
         }, True, 'https://api.runpod.io/graphql')
 
     # https://docs.runpod.io/docs/updating-your-endpoint
+    def update_endpoint_gpu_ids(self, endpoint_id: str, name: str, gpu_ids: str):
+        """Update the GPU pool IDs for a serverless endpoint.
+
+        Args:
+            endpoint_id: The endpoint ID to update.
+            name: The endpoint name (required by the API).
+            gpu_ids: Comma-separated GPU pool IDs
+                (e.g. "AMPERE_48", "ADA_24,AMPERE_80").
+        """
+        return self._run_query({
+            "query": """
+                mutation {{
+                    saveEndpoint(input: {{
+                        id: "{endpoint_id}",
+                        name: "{name}",
+                        gpuIds: "{gpu_ids}"
+                    }}) {{
+                        id
+                        name
+                        gpuIds
+                    }}
+                }}
+            """.format(endpoint_id=endpoint_id, name=name, gpu_ids=gpu_ids)
+        }, True, 'https://api.runpod.io/graphql')
+
+    # https://docs.runpod.io/docs/updating-your-endpoint
     def update_max_workers(self, endpoint_id: str, value: int):
         return self._run_query({
             "query": """
