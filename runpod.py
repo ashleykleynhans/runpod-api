@@ -16,7 +16,8 @@ class API(object):
 
         response = httpx.post(
             url,
-            json=payload
+            json=payload,
+            timeout=60.0
         )
 
         return response
@@ -597,7 +598,8 @@ class Serverless(object):
 
         response = httpx.post(
             url,
-            json=payload
+            json=payload,
+            timeout=60.0
         )
 
         return response
