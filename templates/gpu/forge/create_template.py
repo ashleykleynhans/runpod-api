@@ -8,42 +8,41 @@ CONTAINER_DISK_IN_GB = 10
 IMAGE_NAME = f'ashleykza/forge:{VERSION}'
 IS_PUBLIC = True
 IS_SERVERLESS = False
-# 3000 = Fooocus / 8888 = Jupyter / 2999 = RunPod Upload Manager
+# 3000 = WebUI / 8888 = Jupyter / 2999 = RunPod Upload Manager
 PORTS = '3000/http,8888/http,2999/http,22/tcp'
 START_JUPYTER = True
 START_SSH = True
 VOLUME_IN_GB = 50
 VOLUME_MOUNT_PATH = '/workspace'
+RECOMMENDED_GPU_IDS = []
+INCOMPATIBLE_GPU_IDS = []
+ALLOWED_CUDA_VERSIONS = []
+MIN_VRAM = 0
+MIN_RAM = 0
 
 
 if __name__ == '__main__':
     runpod = runpod.API()
 
     with open("README.md", "r") as file:
-        README = file.read().replace("\n", "\\n")
+        README = file.read()
 
-    template = f"""
-        containerDiskInGb: {CONTAINER_DISK_IN_GB},
-        dockerArgs: "",
-        env: [
-            {{
-                key: "VENV_PATH",
-                value: "/workspace/venvs/stable-diffusion-webui-forge"
-            }}
-        ],
-        imageName: "{IMAGE_NAME}",
-        isPublic: {str(IS_PUBLIC).lower()},
-        isServerless: {str(IS_SERVERLESS).lower()},
-        name: "{TEMPLATE_NAME}",
-        ports: "{PORTS}",
-        readme: "{README}"
-        startJupyter: {str(START_JUPYTER).lower()},
-        startSsh: {str(START_SSH).lower()},
-        volumeInGb: {VOLUME_IN_GB},
-        volumeMountPath: "{VOLUME_MOUNT_PATH}"
-    """
+    response = runpod.create_template(
+        name=TEMPLATE_NAME,
+        image_name=IMAGE_NAME,
+        container_disk_in_gb=CONTAINER_DISK_IN_GB,
+        docker_args="",
+        env=[{"key": "VENV_PATH", "value": "/workspace/venvs/stable-diffusion-webui-forge"}],
+        volume_in_gb=VOLUME_IN_GB,
+        volume_mount_path=VOLUME_MOUNT_PATH,
+        ports=PORTS,
+        readme=README,
+        is_public=IS_PUBLIC,
+        is_serverless=IS_SERVERLESS,
+        start_jupyter=START_JUPYTER,
+        start_ssh=START_SSH,
+    )
 
-    response = runpod.create_template(template)
     resp_json = response.json()
 
     if response.status_code == 200:

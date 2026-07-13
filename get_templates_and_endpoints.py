@@ -55,6 +55,16 @@ if __name__ == '__main__':
         table.add_row("Public", str(template['isPublic']))
         table.add_row("Serverless", str(template['isServerless']))
 
+        recommended = template.get('recommendedGPUIds') or []
+        if recommended:
+            table.add_row("Recommended GPUs", ", ".join(recommended))
+        incompatible = template.get('incompatibleGPUIds') or []
+        if incompatible:
+            table.add_row("Blocked GPUs", ", ".join(incompatible))
+        cuda_versions = template.get('allowedCudaVersions') or []
+        if cuda_versions:
+            table.add_row("CUDA Versions", ", ".join(cuda_versions))
+
         if associated:
             for i, ep in enumerate(associated):
                 gpu_list = ep.get('gpuIds') or ''

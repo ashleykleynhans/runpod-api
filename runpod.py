@@ -169,6 +169,9 @@ class API(object):
                             isPublic
                             isRunpod
                             isServerless
+                            recommendedGPUIds
+                            incompatibleGPUIds
+                            allowedCudaVersions
                         }
                         endpoints {
                             gpuIds
@@ -553,13 +556,164 @@ class API(object):
             """.format(pod_config=pod_config)
         }, True)
 
-    def create_template(self, template):
+    def create_template(self, template=None, *, id=None, name=None, image_name=None,
+                        container_disk_in_gb=None, docker_args=None, env=None,
+                        volume_in_gb=None, volume_mount_path=None, ports=None,
+                        readme=None, is_public=None, is_serverless=None,
+                        start_jupyter=None, start_ssh=None, start_script=None,
+                        advanced_start=None, category=None,
+                        recommended_gpu_ids=None, incompatible_gpu_ids=None,
+                        allowed_cuda_versions=None, min_vram=None, min_ram=None,
+                        network_volume_ids=None, ports_config=None,
+                        container_registry_auth_id=None):
+        """Create or update a Runpod template.
+
+        Supports both legacy string-interpolation mode (template parameter)
+        and structured parameter mode (all keyword arguments).
+
+        Args:
+            template: Legacy raw GraphQL input string. If provided, all other
+                parameters are ignored.
+            name: Template name.
+            image_name: Docker image name.
+            container_disk_in_gb: Container disk size in GB.
+            docker_args: Docker arguments string.
+            env: List of dicts with 'key' and 'value'.
+            volume_in_gb: Volume size in GB.
+            volume_mount_path: Volume mount path.
+            ports: Ports string (e.g. '3000/http,8888/http,22/tcp').
+            readme: Markdown readme content.
+            is_public: Whether the template is public.
+            is_serverless: Whether the template is serverless.
+            start_jupyter: Whether to start Jupyter.
+            start_ssh: Whether to start SSH.
+            start_script: Start script content.
+            advanced_start: Whether to use advanced start.
+            category: Template category ('NVIDIA', 'AMD', 'CPU').
+            recommended_gpu_ids: List of recommended GPU type IDs.
+            incompatible_gpu_ids: List of incompatible GPU type IDs.
+            allowed_cuda_versions: List of allowed CUDA versions.
+            min_vram: Minimum VRAM in GB.
+            min_ram: Minimum RAM in GB.
+            network_volume_ids: List of network volume IDs.
+            ports_config: List of dicts with 'name' and 'port'.
+            container_registry_auth_id: Container registry auth ID.
+        """
+        if template is not None:
+            # Legacy mode: raw GraphQL input string
+            return self._run_query({
+                "query": """
+                    mutation {{
+                        saveTemplate(input: {{ {template} }}) {{
+                            advancedStart
+                            allowedCudaVersions
+                            category
+                            config
+                            containerDiskInGb
+                            containerRegistryAuthId
+                            dockerArgs
+                            env {{
+                                key
+                                value
+                            }}
+                            id
+                            imageName
+                            incompatibleGPUIds
+                            isPublic
+                            isServerless
+                            minRam
+                            minVram
+                            name
+                            networkVolumeIds
+                            ports
+                            portsConfig {{
+                                name
+                                port
+                            }}
+                            readme
+                            recommendedGPUIds
+                            startJupyter
+                            startScript
+                            startSsh
+                            volumeInGb
+                            volumeMountPath
+                        }}
+                    }}
+                """.format(template=template)
+            }, True)
+
+        # Structured mode: build input from parameters
+        input_fields = []
+        if id is not None:
+            input_fields.append(f'id: "{id}"')
+        if name is not None:
+            input_fields.append(f'name: "{name}"')
+        if image_name is not None:
+            input_fields.append(f'imageName: "{image_name}"')
+        if container_disk_in_gb is not None:
+            input_fields.append(f'containerDiskInGb: {container_disk_in_gb}')
+        if docker_args is not None:
+            input_fields.append(f'dockerArgs: "{docker_args}"')
+        if env is not None:
+            env_strs = [f'{{key: "{e["key"]}", value: "{e["value"]}"}}' for e in env]
+            input_fields.append(f'env: [{", ".join(env_strs)}]')
+        if volume_in_gb is not None:
+            input_fields.append(f'volumeInGb: {volume_in_gb}')
+        if volume_mount_path is not None:
+            input_fields.append(f'volumeMountPath: "{volume_mount_path}"')
+        if ports is not None:
+            input_fields.append(f'ports: "{ports}"')
+        if readme is not None:
+            escaped_readme = readme.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n')
+            input_fields.append(f'readme: "{escaped_readme}"')
+        if is_public is not None:
+            input_fields.append(f'isPublic: {str(is_public).lower()}')
+        if is_serverless is not None:
+            input_fields.append(f'isServerless: {str(is_serverless).lower()}')
+        if start_jupyter is not None:
+            input_fields.append(f'startJupyter: {str(start_jupyter).lower()}')
+        if start_ssh is not None:
+            input_fields.append(f'startSsh: {str(start_ssh).lower()}')
+        if start_script is not None:
+            input_fields.append(f'startScript: "{start_script}"')
+        if advanced_start is not None:
+            input_fields.append(f'advancedStart: {str(advanced_start).lower()}')
+        if category is not None:
+            input_fields.append(f'category: "{category}"')
+        if recommended_gpu_ids is not None:
+            gpu_list = ', '.join(f'"{g}"' for g in recommended_gpu_ids)
+            input_fields.append(f'recommendedGPUIds: [{gpu_list}]')
+        if incompatible_gpu_ids is not None:
+            gpu_list = ', '.join(f'"{g}"' for g in incompatible_gpu_ids)
+            input_fields.append(f'incompatibleGPUIds: [{gpu_list}]')
+        if allowed_cuda_versions is not None:
+            ver_list = ', '.join(f'"{v}"' for v in allowed_cuda_versions)
+            input_fields.append(f'allowedCudaVersions: [{ver_list}]')
+        if min_vram is not None:
+            input_fields.append(f'minVram: {min_vram}')
+        if min_ram is not None:
+            input_fields.append(f'minRam: {min_ram}')
+        if network_volume_ids is not None:
+            nv_list = ', '.join(f'"{v}"' for v in network_volume_ids)
+            input_fields.append(f'networkVolumeIds: [{nv_list}]')
+        if ports_config is not None:
+            pc_strs = [f'{{name: "{p["name"]}", port: "{p["port"]}"}}' for p in ports_config]
+            input_fields.append(f'portsConfig: [{", ".join(pc_strs)}]')
+        if container_registry_auth_id is not None:
+            input_fields.append(f'containerRegistryAuthId: "{container_registry_auth_id}"')
+
+        input_str = ', '.join(input_fields)
+
         return self._run_query({
             "query": """
                 mutation {{
-                    saveTemplate(input: {{ {template} }}) {{
+                    saveTemplate(input: {{ {input_str} }}) {{
                         advancedStart
+                        allowedCudaVersions
+                        category
+                        config
                         containerDiskInGb
+                        containerRegistryAuthId
                         dockerArgs
                         env {{
                             key
@@ -567,9 +721,20 @@ class API(object):
                         }}
                         id
                         imageName
+                        incompatibleGPUIds
+                        isPublic
+                        isServerless
+                        minRam
+                        minVram
                         name
+                        networkVolumeIds
                         ports
+                        portsConfig {{
+                            name
+                            port
+                        }}
                         readme
+                        recommendedGPUIds
                         startJupyter
                         startScript
                         startSsh
@@ -577,7 +742,7 @@ class API(object):
                         volumeMountPath
                     }}
                 }}
-            """.format(template=template)
+            """.format(input_str=input_str)
         }, True)
 
 
