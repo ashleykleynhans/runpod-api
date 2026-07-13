@@ -1,51 +1,69 @@
 #!/usr/bin/env python3
+"""Display available GPU types with pricing from the Runpod API."""
 import json
 import runpod
-from prettytable import PrettyTable
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
 
 
 if __name__ == '__main__':
+    console = Console()
     runpod = runpod.API()
     response = runpod.get_gpu_types()
     resp_json = response.json()
 
     if response.status_code == 200:
         if 'errors' in resp_json:
-            print('ERROR:')
+            console.print('[red]ERROR:[/red]')
             for error in resp_json['errors']:
-                print(error['message'])
+                console.print(f'  {error["message"]}')
         else:
             gpu_types = resp_json['data']['gpuTypes']
-            sorted_gpu_types = sorted(gpu_types, key=lambda x: x["memoryInGb"])
+            sorted_gpu_types = sorted(gpu_types, key=lambda x: x['memoryInGb'])
 
-            table = PrettyTable(padding_width=2)
-            table.field_names = ['ID', 'Name', 'GPU', 'GPU Max', 'Secure', 'Community', 'Spot']
-            table.align['ID'] = 'l'
-            table.align['Name'] = 'l'
+            table = Table(
+                title='Runpod GPU Types',
+                padding=(0, 1),
+            )
+            table.add_column('Name', style='bold', max_width=30)
+            table.add_column('ID', style='cyan', max_width=48)
+            table.add_column('VRAM', justify='right', width=8)
+            table.add_column('Max', justify='right', width=5)
+            table.add_column('Secure', justify='right', width=8)
+            table.add_column('Community', justify='right', width=10)
+            table.add_column('Spot', justify='right', width=8)
 
             for gpu in sorted_gpu_types:
-                memory = f"{gpu['memoryInGb']} GB"
+                memory = f'{gpu["memoryInGb"]} GB'
 
-                if not gpu['secureCloud']:
-                    gpu['securePrice'] = '-'
+                if gpu['secureCloud']:
+                    secure = Text(str(gpu['securePrice']), style='green')
+                else:
+                    secure = Text('-', style='dim')
 
-                if not gpu['communityCloud']:
-                    gpu['communityPrice'] = '-'
+                if gpu['communityCloud']:
+                    community = Text(str(gpu['communityPrice']), style='yellow')
+                else:
+                    community = Text('-', style='dim')
 
-                if gpu['lowestPrice']['minimumBidPrice'] is None:
-                    gpu['lowestPrice']['minimumBidPrice'] = '-'
+                spot_price = gpu['lowestPrice']['minimumBidPrice']
+                if spot_price is not None:
+                    spot = Text(str(spot_price), style='yellow')
+                else:
+                    spot = Text('-', style='dim')
 
-                table.add_row([
-                    gpu['id'],
+                table.add_row(
                     gpu['displayName'],
+                    gpu['id'],
                     memory,
-                    gpu['maxGpuCount'],
-                    gpu['securePrice'],
-                    gpu['communityPrice'],
-                    gpu['lowestPrice']['minimumBidPrice']
-                ])
+                    str(gpu['maxGpuCount']),
+                    secure,
+                    community,
+                    spot,
+                )
 
-            print(table)
+            console.print(table)
     else:
-        print(response.status_code)
-        print(json.dumps(resp_json, indent=4, default=str))
+        console.print(f'[red]HTTP {response.status_code}[/red]')
+        console.print(json.dumps(resp_json, indent=4, default=str))
