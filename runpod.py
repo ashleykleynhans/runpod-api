@@ -169,6 +169,17 @@ class API(object):
                             isPublic
                             isRunpod
                             isServerless
+                            containerDiskInGb
+                            dockerArgs
+                            volumeInGb
+                            volumeMountPath
+                            ports
+                            startJupyter
+                            startSsh
+                            env {
+                                key
+                                value
+                            }
                             recommendedGPUIds
                             incompatibleGPUIds
                             allowedCudaVersions
