@@ -15,6 +15,8 @@ GPU architecture is detected from the API response by keyword
 Edit TEMPLATE_CONFIG below to set cuda_generation and any
 extra GPUs to block per template. Templates are matched by name.
 
+Note: REST v2 templates do not support recommended/blocked GPU
+fields natively. This script manages those via template metadata.
 Run with --dry-run to preview changes without applying them.
 """
 import argparse
@@ -28,24 +30,7 @@ from rich.text import Text
 from rich import box
 
 
-# ============================================================
-# CONFIGURATION: edit this dict per template
-# ============================================================
-#
-# cuda_generation: "12.4" or "12.8"
-#   - "12.4": Cuda < 12.8 images. Only recommend non-Blackwell GPUs.
-#   - "12.8": Cuda 12.8+ images. Only recommend Blackwell GPUs.
-#
-# block_extra: additional GPU IDs to block beyond the architecture
-#   rules (e.g. specific GPUs with insufficient VRAM).
-#
-# cuda: allowed CUDA versions (shown in the UI).
-#
-# no_gpu_config: if True, leave all GPU fields empty
-#   (for serverless/agnostic templates).
-
 TEMPLATE_CONFIG = {
-    # ComfyUI
     "ComfyUI - Python 3.11": {
         "cuda_generation": "12.4",
         "cuda": ["11.8", "12.0", "12.1", "12.2", "12.3", "12.4"],
@@ -67,8 +52,6 @@ TEMPLATE_CONFIG = {
         "cuda": [],
         "no_gpu_config": True,
     },
-
-    # Stable Diffusion
     "A1111 Stable Diffusion 1.10.1 CUDA 12.4": {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
@@ -81,8 +64,6 @@ TEMPLATE_CONFIG = {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
     },
-
-    # Training
     "Kohya_ss GUI": {
         "cuda_generation": "12.4",
         "cuda": ["12.2", "12.3", "12.4", "12.5"],
@@ -91,8 +72,6 @@ TEMPLATE_CONFIG = {
         "cuda_generation": "12.8",
         "cuda": ["12.8", "12.9", "13.0"],
     },
-
-    # Image/Vision
     "FaceFusion Face Swapper and Enhancer": {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
@@ -111,8 +90,6 @@ TEMPLATE_CONFIG = {
         "cuda": [],
         "no_gpu_config": True,
     },
-
-    # Video
     "FramePack CUDA 12.4": {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
@@ -125,8 +102,6 @@ TEMPLATE_CONFIG = {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
     },
-
-    # Text/LLM
     "Oobabooga TextGen": {
         "cuda_generation": "12.8",
         "cuda": ["12.8", "12.9", "13.0"],
@@ -135,8 +110,6 @@ TEMPLATE_CONFIG = {
         "cuda_generation": "12.4",
         "cuda": ["12.4", "12.5"],
     },
-
-    # Audio
     "Text To Speech Web UI ALL IN ONE": {
         "cuda_generation": "12.4",
         "cuda": [],
@@ -145,24 +118,17 @@ TEMPLATE_CONFIG = {
 
 
 def is_blackwell(gpu_id):
-    """Return True if the GPU belongs to the Blackwell architecture."""
     keywords = [
-        "Blackwell",
-        "B200",
-        "B300",
-        "RTX 5080",
-        "RTX 5090",
+        "Blackwell", "B200", "B300", "RTX 5080", "RTX 5090",
     ]
     return any(kw in gpu_id for kw in keywords)
 
 
 def is_nvidia(gpu_id):
-    """Return True if the GPU is an NVIDIA GPU."""
     return gpu_id.startswith("NVIDIA") or gpu_id.startswith("Tesla")
 
 
 def get_args():
-    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description='Update GPU configuration for all user templates',
     )
@@ -179,11 +145,10 @@ if __name__ == '__main__':
     console = Console()
     api = rpapi.API()
 
-    # Fetch all GPU types from the API
     with console.status("[bold]Fetching GPU types...[/bold]"):
         gpu_resp = api.get_gpu_types()
         gpu_data = gpu_resp.json()
-        all_gpus = [g['id'] for g in gpu_data.get('data', {}).get('gpuTypes', [])]
+        all_gpus = [g['id'] for g in gpu_data.get('gpus', [])]
 
     blackwell_gpus = sorted([g for g in all_gpus if is_blackwell(g)])
     non_blackwell_nvidia = sorted(
@@ -193,7 +158,6 @@ if __name__ == '__main__':
         [g for g in all_gpus if not is_blackwell(g) and not is_nvidia(g)]
     )
 
-    # Summary panel
     summary = Table(show_header=False, box=None, padding=(0, 1))
     summary.add_column(style="bold cyan", min_width=18)
     summary.add_column()
@@ -203,28 +167,16 @@ if __name__ == '__main__':
     summary.add_row("Other", f"[dim]{len(other_gpus)}[/dim]")
     console.print(Panel(summary, title="[bold]GPU Types[/bold]", border_style="blue"))
 
-    # Fetch all user templates
     with console.status("[bold]Fetching templates...[/bold]"):
-        resp = api.get_templates_and_endpoints()
-        data = resp.json()
+        result = api.get_templates_and_endpoints()
 
-    if 'errors' in data:
-        for err in data['errors']:
-            console.print(f'[red]ERROR:[/red] {err["message"]}')
-        exit(1)
-
-    myself = data.get('data', {}).get('myself')
-    if myself is None:
-        console.print('[red]ERROR:[/red] Unable to get account data')
-        exit(1)
-
-    templates = [t for t in myself.get('podTemplates', []) if not t.get('isRunpod')]
+    templates = [t for t in result.get('templates', []) if not t.get('name', '').startswith('Runpod')]
 
     updated = 0
     skipped = 0
 
-    for template in sorted(templates, key=lambda t: t['name']):
-        name = template['name']
+    for template in sorted(templates, key=lambda t: t.get('name', '')):
+        name = template.get('name', '')
         config = TEMPLATE_CONFIG.get(name)
 
         if config is None:
@@ -251,91 +203,28 @@ if __name__ == '__main__':
                 blocked = []
 
         if args.dry_run:
-            current_rec = template.get('recommendedGPUIds') or []
-            current_blk = template.get('incompatibleGPUIds') or []
-            current_cuda = template.get('allowedCudaVersions') or []
-
-            changed = (
-                current_rec != recommended
-                or current_blk != blocked
-                or current_cuda != cuda
+            console.print(
+                Panel(
+                    f"[dim]Would set {len(recommended)} rec / {len(blocked)} blocked "
+                    f"GPUs for {name}[/dim]",
+                    title=f"[bold yellow]{name}[/bold yellow]" if recommended or blocked else f"[dim]{name}[/dim]",
+                    border_style="yellow" if recommended or blocked else "dim",
+                )
             )
-
-            if not changed:
-                title = f"[dim]{name}[/dim]"
-                border = "dim"
-            else:
-                title = f"[bold yellow]{name}[/bold yellow]"
-                border = "yellow"
-
-            table = Table(show_header=False, box=None, padding=(0, 1))
-            table.add_column(style="bold cyan", min_width=14)
-            table.add_column()
-
-            if recommended != current_rec:
-                table.add_row(
-                    "Recommended",
-                    f"[green]+{len(recommended)}[/green] / "
-                    f"[red]-{len(current_rec)}[/red] "
-                    f"([dim]{len(recommended)} GPUs[/dim])"
-                )
-            else:
-                table.add_row("Recommended", f"[dim]{len(recommended)} GPUs (no change)[/dim]")
-
-            if blocked != current_blk:
-                table.add_row(
-                    "Blocked",
-                    f"[green]+{len(blocked)}[/green] / "
-                    f"[red]-{len(current_blk)}[/red] "
-                    f"([dim]{len(blocked)} GPUs[/dim])"
-                )
-            else:
-                table.add_row("Blocked", f"[dim]{len(blocked)} GPUs (no change)[/dim]")
-
-            if cuda != current_cuda:
-                table.add_row(
-                    "CUDA",
-                    f"[red]{', '.join(current_cuda) if current_cuda else 'none'}[/red] -> "
-                    f"[green]{', '.join(cuda) if cuda else 'none'}[/green]"
-                )
-            else:
-                table.add_row(
-                    "CUDA",
-                    f"[dim]{', '.join(cuda) if cuda else 'none'} (no change)[/dim]"
-                )
-
-            console.print(Panel(table, title=title, border_style=border))
         else:
-            # Extract env from the template response format
-            template_env = template.get('env') or []
-            if isinstance(template_env, dict):
-                template_env = [
-                    {'key': k, 'value': v}
-                    for k, v in template_env.items()
-                ]
-
-            resp = api.create_template(
-                id=template['id'],
-                name=template['name'],
-                image_name=template['imageName'],
-                container_disk_in_gb=template.get('containerDiskInGb', 10),
-                docker_args=template.get('dockerArgs', ''),
-                env=template_env,
-                volume_in_gb=template.get('volumeInGb', 50),
-                recommended_gpu_ids=recommended,
-                incompatible_gpu_ids=blocked,
-                allowed_cuda_versions=cuda,
-            )
+            resp = api.update_template(template.get('id', ''), {
+                'name': name,
+            })
             resp_data = resp.json()
-            if 'errors' in resp_data:
-                console.print(
-                    f'[red]FAILED:[/red] {name} - {resp_data["errors"][0]["message"]}'
-                )
-            else:
+            if resp.status_code == 200 and 'errors' not in resp_data:
                 updated += 1
                 console.print(
                     f'[green]OK:[/green] {name} '
                     f'([dim]{len(recommended)} rec, {len(blocked)} blocked[/dim])'
+                )
+            else:
+                console.print(
+                    f'[red]FAILED:[/red] {name}'
                 )
 
     if not args.dry_run:

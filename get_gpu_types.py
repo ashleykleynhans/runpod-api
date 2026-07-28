@@ -19,8 +19,8 @@ if __name__ == '__main__':
             for error in resp_json['errors']:
                 console.print(f'  {error["message"]}')
         else:
-            gpu_types = resp_json['data']['gpuTypes']
-            sorted_gpu_types = sorted(gpu_types, key=lambda x: x['memoryInGb'])
+            gpu_types = resp_json['gpus']
+            sorted_gpu_types = sorted(gpu_types, key=lambda x: x['memory'])
 
             table = Table(
                 title='Runpod GPU Types',
@@ -32,35 +32,31 @@ if __name__ == '__main__':
             table.add_column('Max', justify='right', width=5)
             table.add_column('Secure', justify='right', width=8)
             table.add_column('Community', justify='right', width=10)
-            table.add_column('Spot', justify='right', width=8)
 
             for gpu in sorted_gpu_types:
-                memory = f'{gpu["memoryInGb"]} GB'
+                memory = f'{gpu["memory"]} GB'
+                price = gpu.get('price', {})
 
-                if gpu['secureCloud']:
-                    secure = Text(str(gpu['securePrice']), style='green')
+                if gpu.get('secure'):
+                    secure = Text(str(price.get('secure', '-')), style='green')
                 else:
                     secure = Text('-', style='dim')
 
-                if gpu['communityCloud']:
-                    community = Text(str(gpu['communityPrice']), style='yellow')
+                if gpu.get('community'):
+                    community = Text(str(price.get('community', '-')), style='yellow')
                 else:
                     community = Text('-', style='dim')
 
-                spot_price = gpu['lowestPrice']['minimumBidPrice']
-                if spot_price is not None:
-                    spot = Text(str(spot_price), style='yellow')
-                else:
-                    spot = Text('-', style='dim')
+                max_count = gpu.get('maxCount', {})
+                max_gpu = max_count.get('secure', 0) or max_count.get('community', 0)
 
                 table.add_row(
-                    gpu['displayName'],
+                    gpu['name'],
                     gpu['id'],
                     memory,
-                    str(gpu['maxGpuCount']),
+                    str(max_gpu),
                     secure,
                     community,
-                    spot,
                 )
 
             console.print(table)

@@ -18,10 +18,10 @@ def get_args():
     )
 
     parser.add_argument(
-        '--max_workers', '-max_workers', '--min', '-min', '--m', '-m',
+        '--max_workers', '-max_workers', '--max', '-max',
         type=int,
         required=True,
-        help='min workers (eg. 1)'
+        help='max workers (eg. 3)'
     )
 
     return parser.parse_args()
@@ -38,16 +38,15 @@ if __name__ == '__main__':
         if 'errors' in resp_json:
             print('ERROR:')
             for error in resp_json['errors']:
-                print(error['message'])
+                print(error.get('message', str(error)))
         else:
-            endpoint = resp_json['data']['updateEndpointWorkersMax']
+            endpoint = resp_json
             print('Max workers updated successfully.')
-            print(f"endpoint id: {endpoint['id']}")
-            print(f"template id: {endpoint['templateId']}")
-            print(f"min workers: {endpoint['workersMin']}")
-            print(f"max workers: {endpoint['workersMax']}")
+            print(f"endpoint id: {endpoint.get('id')}")
+            workers = endpoint.get('workers', {})
+            print(f"min workers: {workers.get('min') if isinstance(workers, dict) else '?'}")
+            print(f"max workers: {workers.get('max') if isinstance(workers, dict) else '?'}")
     elif response.status_code == 401:
         print('ERROR: Unauthorized (401) - Check your API token')
     else:
-        print('ERROR: ', end='')
-        print(f'HTTP Status code: {response.status_code}')
+        print(f'ERROR: HTTP Status code: {response.status_code}')

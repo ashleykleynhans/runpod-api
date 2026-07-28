@@ -16,34 +16,25 @@ if __name__ == '__main__':
 
     console = Console()
     api = rpapi.API()
-    response = api.get_templates_and_endpoints()
-    resp_json = response.json()
+    result = api.get_templates_and_endpoints()
 
-    if response.status_code != 200 or 'errors' in resp_json:
-        console.print(f"[red]ERROR fetching data[/red]")
-        console.print_json(json.dumps(resp_json, default=str))
-        exit(1)
-
-    myself = resp_json['data']['myself']
-    templates = {t['name']: t for t in myself.get('podTemplates', [])}
-    endpoints = myself.get('endpoints', [])
+    templates_list = result.get('templates', [])
+    templates = {t.get('name', ''): t for t in templates_list}
+    endpoints = result.get('endpoints', [])
 
     # Find the endpoint by name
-    matching = [ep for ep in endpoints if ep['name'] == endpoint_name]
+    matching = [ep for ep in endpoints if ep.get('name') == endpoint_name]
 
     if not matching:
         console.print(f"[red]Endpoint '{endpoint_name}' not found.[/red] Available endpoints:")
-        for ep in sorted(endpoints, key=lambda e: e['name']):
-            tpl = ep.get('template') or {}
-            tpl_name = tpl.get('name', '?')
-            console.print(f"  {ep['name']}  [dim]{ep['id']}  ({tpl_name})[/dim]")
+        for ep in sorted(endpoints, key=lambda e: e.get('name', '')):
+            console.print(f"  {ep.get('name')}  [dim]{ep.get('id')}[/dim]")
         exit(1)
 
     if len(matching) > 1:
         console.print(f"[yellow]Multiple endpoints named '{endpoint_name}':[/yellow]")
         for ep in matching:
-            console.print(f"  {ep['name']}  [dim]{ep['id']}[/dim]")
-        console.print("[yellow]Please rename them so names are unique, or use serverless/update_endpoint_template.py with IDs.[/yellow]")
+            console.print(f"  {ep.get('name')}  [dim]{ep.get('id')}[/dim]")
         exit(1)
 
     endpoint = matching[0]
@@ -55,15 +46,14 @@ if __name__ == '__main__':
         exit(1)
 
     to_template = templates[to_name]
-    current_tpl = endpoint.get('template') or {}
-    current_name = current_tpl.get('name', '?')
+    current_tpl_id = endpoint.get('templateId', '?')
 
-    if endpoint['templateId'] == to_template['id']:
+    if endpoint.get('templateId') == to_template.get('id'):
         console.print(f"[yellow]Endpoint '{endpoint_name}' already uses template '{to_name}'.[/yellow]")
         exit(0)
 
-    console.print(f"Endpoint:  [bold]{endpoint['name']}[/bold]  [dim]{endpoint['id']}[/dim]")
-    console.print(f"From:      [red]{current_name}[/red]")
+    console.print(f"Endpoint:  [bold]{endpoint.get('name')}[/bold]  [dim]{endpoint.get('id')}[/dim]")
+    console.print(f"From:      [red]{current_tpl_id}[/red]")
     console.print(f"To:        [green]{to_name}[/green]")
 
     console.print()
@@ -73,12 +63,12 @@ if __name__ == '__main__':
         exit(0)
 
     serverless = rpapi.Serverless()
-    resp = serverless.update_endpoint_template(endpoint['id'], to_template['id'])
+    resp = serverless.update_endpoint_template(endpoint.get('id'), to_template.get('id'))
     resp_json = resp.json()
 
     if resp.status_code == 200 and 'errors' not in resp_json:
-        console.print(f"\n[bold green]Updated {endpoint['name']} to {to_name}.[/bold green]")
+        console.print(f"\n[bold green]Updated {endpoint.get('name')} to {to_name}.[/bold green]")
     else:
-        console.print(f"\n[red]Failed to update {endpoint['name']}[/red]")
+        console.print(f"\n[red]Failed to update {endpoint.get('name')}[/red]")
         console.print_json(json.dumps(resp_json, default=str))
         exit(1)

@@ -21,13 +21,7 @@ if __name__ == '__main__':
             console.print(f"[red]ERROR:[/red] {error['message']}")
         exit(1)
 
-    myself = resp_json.get('data', {}).get('myself')
-    if myself is None:
-        console.print('[red]ERROR:[/red] Unable to get account data')
-        console.print_json(json.dumps(resp_json, default=str))
-        exit(1)
-
-    volumes = myself.get('networkVolumes', [])
+    volumes = resp_json.get('networkVolumes', [])
 
     table = Table(title="Network Volumes")
     table.add_column("Name", style="bold")
@@ -40,7 +34,7 @@ if __name__ == '__main__':
             vol['name'],
             vol['id'],
             str(vol['size']),
-            vol['dataCenterId']
+            vol.get('dataCenter', vol.get('dataCenterId', ''))
         )
 
     console.print(table)

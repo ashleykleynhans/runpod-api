@@ -27,21 +27,28 @@ def start_pod(pod_id):
     if response.status_code == 200:
         if 'errors' in resp_json:
             for error in resp_json['errors']:
-                if error['message'] == 'There are not enough free GPUs on the host machine to start this pod.':
+                msg = error.get('message', str(error))
+                if 'not enough free gpus' in msg.lower():
                     print('No available GPU, sleeping for 10 seconds....')
                     time.sleep(10)
                     start_pod(pod_id)
                 else:
-                    print(f"ERROR: {error['message']}")
+                    print(f"ERROR: {msg}")
         else:
-            pod = resp_json['data']['podResume']
-
-            print(f"id:         {pod['id']}")
-            print(f"status:     {pod['desiredStatus']}")
-            print(f"image:      {pod['imageName']}")
-            print(f"machine id: {pod['machineId']}")
-            print(f"host id:    {pod['machine']['podHostId']}")
+            pod = resp_json
+            machine = pod.get('machine', {}) if isinstance(pod, dict) else {}
+            print(f"id:         {pod.get('id')}")
+            print(f"status:     {pod.get('status')}")
+            print(f"image:      {pod.get('image')}")
+            print(f"machine id: {pod.get('machineId', 'N/A')}")
+            if machine:
+                print(f"host id:    {machine.get('podHostId', 'N/A')}")
             sys.exit()
+    elif response.status_code == 204:
+        print(f'Pod {pod_id} action completed')
+    else:
+        print(f'HTTP {response.status_code}')
+        print(resp_json)
 
 
 if __name__ == '__main__':

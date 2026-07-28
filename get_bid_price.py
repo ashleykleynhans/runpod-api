@@ -6,14 +6,14 @@ import rpapi
 
 def get_args():
     parser = argparse.ArgumentParser(
-        description='Get bid price for a specific RunPod GPU pod type',
+        description='Get pricing for a specific RunPod GPU type',
     )
 
     parser.add_argument(
         '--gpu_id', '-gpu_id', '--gpu', '-gpu', '--g', '-g',
         type=str,
         required=True,
-        help='GPU id (eg. NVIDIA GeForce RTX 3090")'
+        help='GPU id (eg. "NVIDIA GeForce RTX 3090")'
     )
 
     return parser.parse_args()
@@ -32,14 +32,16 @@ if __name__ == '__main__':
             for error in resp_json['errors']:
                 print(error['message'])
         else:
-            gpu = resp_json['data']['gpuTypes'][0]
+            price = resp_json.get('price', {})
 
             print()
-            print(f"id:                 {gpu['id']}")
-            print(f"name:               {gpu['displayName']}")
-            print(f"vram:               {gpu['memoryInGb']}")
-            print(f"secure cloud:       {gpu['secureCloud']}")
-            print(f"community cloud:    {gpu['communityCloud']}")
-            print(f"minimum price:      {gpu['lowestPrice']['minimumBidPrice']}")
-            print(f"uniterrupted price: {gpu['lowestPrice']['uninterruptablePrice']}")
-            # print(json.dumps(resp_json, indent=4, default=str))
+            print(f"id:                 {resp_json['id']}")
+            print(f"name:               {resp_json['name']}")
+            print(f"vram:               {resp_json['memory']} GB")
+            print(f"secure cloud:       {resp_json.get('secure', False)}")
+            print(f"community cloud:    {resp_json.get('community', False)}")
+            print(f"secure price:       {price.get('secure', '-')}")
+            print(f"community price:    {price.get('community', '-')}")
+    else:
+        print(f'HTTP {response.status_code}')
+        print(json.dumps(resp_json, indent=4, default=str))

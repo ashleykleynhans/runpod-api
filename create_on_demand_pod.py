@@ -18,55 +18,45 @@ PORTS = '22/tcp,3000/http,3010/http,3020/http,6006/http,8000/http,8888/http,2999
 
 
 def create_on_demand_pod():
-    allowed_cuda_versions_string = ", ".join([f'"{version}"' for version in ALLOWED_CUDA_VERSIONS])
+    pod_config = {
+        'name': NAME,
+        'image': IMAGE_NAME,
+        'gpu': {
+            'id': GPU_TYPE_ID,
+            'count': 1,
+        },
+        'cloud': CLOUD_TYPE,
+        'disk': OS_DISK_SIZE_GB,
+        'ports': PORTS.split(','),
+        'mounts': {
+            'persistent': {
+                'size': PERSISTENT_DISK_SIZE_GB,
+                'path': '/workspace',
+            }
+        },
+        'env': {
+            'VENV_PATH': '/workspace/venvs/stable-diffusion-webui',
+            'ENABLE_TENSORBOARD': '1',
+        },
+    }
 
-    pod_config = f"""
-        countryCode: "{COUNTRY_CODE}",
-        minDownload: {MIN_DOWNLOAD},
-        allowedCudaVersions: [{allowed_cuda_versions_string}],
-        gpuCount: 1,
-        volumeInGb: {PERSISTENT_DISK_SIZE_GB},
-        containerDiskInGb: {OS_DISK_SIZE_GB},
-        gpuTypeId: "{GPU_TYPE_ID}",
-        cloudType: {CLOUD_TYPE},
-        supportPublicIp: true,
-        name: "{NAME}",
-        dockerArgs: "",
-        ports: "{PORTS}",
-        volumeMountPath: "/workspace",
-        imageName: "{IMAGE_NAME}",
-        startJupyter: true,
-        startSsh: true,
-        env: [
-            {{
-                key: "VENV_PATH",
-                value: "/workspace/venvs/stable-diffusion-webui"
-            }},
-            {{
-                key: "ENABLE_TENSORBOARD",
-                value: "1"
-            }}
-        ]
-    """
-
-    response = runpod.create_on_demand_pod(pod_config)
+    response = runpod.create_pod(pod_config)
     resp_json = response.json()
 
-    if response.status_code == 200:
+    if response.status_code in (200, 201):
         if 'errors' in resp_json:
-
             for error in resp_json['errors']:
-                if error['message'] == 'There are no longer any instances available with the requested specifications. Please refresh and try again.':
+                msg = error.get('message', str(error))
+                if 'no longer any instances available' in msg.lower():
                     print('No resources currently available, sleeping for 5 seconds')
                     time.sleep(5)
                     create_on_demand_pod()
-                elif error['message'] == 'There are no longer any instances available with enough disk space.':
-                    print(error)
+                elif 'enough disk space' in msg.lower():
                     print('No instances with enough disk space available, sleeping for 5 seconds')
                     time.sleep(5)
                     create_on_demand_pod()
                 else:
-                    print('ERROR: ' + error['message'])
+                    print(f'ERROR: {msg}')
         else:
             print(json.dumps(resp_json, indent=4, default=str))
             sys.exit()

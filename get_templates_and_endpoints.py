@@ -11,39 +11,24 @@ from rich.text import Text
 if __name__ == '__main__':
     console = Console()
     api = rpapi.API()
-    response = api.get_templates_and_endpoints()
-    resp_json = response.json()
+    result = api.get_templates_and_endpoints()
 
-    if response.status_code != 200:
-        console.print(f"[red]HTTP {response.status_code}[/red]")
-        console.print_json(json.dumps(resp_json, default=str))
-        exit(1)
+    templates = result.get('templates', [])
+    endpoints = result.get('endpoints', [])
 
-    if 'errors' in resp_json:
-        for error in resp_json['errors']:
-            console.print(f"[red]ERROR:[/red] {error['message']}")
-        exit(1)
+    # Filter out Runpod system templates
+    templates = [t for t in templates if not t.get('name', '').startswith('Runpod')]
 
-    myself = resp_json.get('data', {}).get('myself')
-    if myself is None:
-        console.print('[red]ERROR:[/red] Unable to get account data')
-        console.print_json(json.dumps(resp_json, default=str))
-        exit(1)
-
-    templates = [t for t in myself.get('podTemplates', []) if not t.get('isRunpod')]
-    endpoints = myself.get('endpoints', [])
-
-    # Group endpoints by templateId
     endpoints_by_template = defaultdict(list)
     for ep in endpoints:
-        endpoints_by_template[ep['templateId']].append(ep)
+        tid = ep.get('templateId') or ep.get('id')
+        endpoints_by_template[tid].append(ep)
 
-    for template in sorted(templates, key=lambda t: t['name']):
-        tid = template['id']
+    for template in sorted(templates, key=lambda t: t.get('name', '')):
+        tid = template.get('id', '')
         associated = endpoints_by_template.get(tid, [])
 
-        # Build template info
-        title = template['name']
+        title = template.get('name', '')
         if associated:
             title += f" ({len(associated)} endpoint{'s' if len(associated) != 1 else ''})"
 
@@ -51,40 +36,36 @@ if __name__ == '__main__':
         table.add_column(style="bold cyan", min_width=10)
         table.add_column()
         table.add_row("ID", tid)
-        table.add_row("Image", template['imageName'])
-        table.add_row("Public", str(template['isPublic']))
-        table.add_row("Serverless", str(template['isServerless']))
-
-        recommended = template.get('recommendedGPUIds') or []
-        if recommended:
-            table.add_row("Recommended GPUs", ", ".join(recommended))
-        incompatible = template.get('incompatibleGPUIds') or []
-        if incompatible:
-            table.add_row("Blocked GPUs", ", ".join(incompatible))
-        cuda_versions = template.get('allowedCudaVersions') or []
-        if cuda_versions:
-            table.add_row("CUDA Versions", ", ".join(cuda_versions))
+        table.add_row("Image", template.get('image', ''))
+        table.add_row("Public", str(template.get('public', '')))
+        table.add_row("Serverless", str(template.get('serverless', '')))
 
         if associated:
             for i, ep in enumerate(associated):
-                gpu_list = ep.get('gpuIds') or ''
-                workers = f"{ep['workersMin']}-{ep['workersMax']} (standby: {ep['workersStandby']})"
+                gpu_info = ep.get('gpu', {})
+                gpu_pools = gpu_info.get('pools', []) if isinstance(gpu_info, dict) else []
+                gpu_list = ', '.join(gpu_pools) if gpu_pools else ''
+                workers = ep.get('workers', {})
+                if isinstance(workers, dict):
+                    w_min = workers.get('min', '?')
+                    w_max = workers.get('max', '?')
+                else:
+                    w_min = w_max = '?'
                 if i == 0:
                     table.add_row("", "")
                 ep_text = Text()
-                ep_text.append(ep['name'], style="bold")
-                ep_text.append(f"  {ep['id']}", style="dim")
+                ep_text.append(ep.get('name', ''), style="bold")
+                ep_text.append(f"  {ep.get('id', '')}", style="dim")
                 table.add_row("Endpoint", ep_text)
-                table.add_row("  Workers", workers)
+                table.add_row("  Workers", f"{w_min}-{w_max}")
                 if gpu_list:
-                    table.add_row("  GPUs", gpu_list)
+                    table.add_row("  GPU Pools", gpu_list)
 
         border_style = "green" if associated else "dim"
         console.print(Panel(table, title=f"[bold]{title}[/bold]", border_style=border_style))
 
-    # Show endpoints that reference a template not in the user's template list
-    user_template_ids = {t['id'] for t in templates}
-    orphaned = [ep for ep in endpoints if ep['templateId'] not in user_template_ids]
+    user_template_ids = {t.get('id') for t in templates}
+    orphaned = [ep for ep in endpoints if ep.get('templateId') not in user_template_ids]
     if orphaned:
         table = Table(show_header=False, box=None, padding=(0, 1))
         table.add_column(style="bold cyan", min_width=14)
@@ -92,15 +73,10 @@ if __name__ == '__main__':
         for i, ep in enumerate(orphaned):
             if i > 0:
                 table.add_row("", "")
-            tpl = ep.get('template') or {}
             ep_text = Text()
-            ep_text.append(ep['name'], style="bold")
-            ep_text.append(f"  {ep['id']}", style="dim")
+            ep_text.append(ep.get('name', ''), style="bold")
+            ep_text.append(f"  {ep.get('id', '')}", style="dim")
             table.add_row("Endpoint", ep_text)
-            table.add_row("  Template ID", ep['templateId'])
-            if tpl.get('name'):
-                table.add_row("  Template", tpl['name'])
-            if tpl.get('imageName'):
-                table.add_row("  Image", tpl['imageName'])
+            table.add_row("  Template ID", ep.get('templateId', ''))
 
-        console.print(Panel(table, title="[bold]Endpoints using external/deleted templates[/bold]", border_style="yellow"))
+        console.print(Panel(table, title="[bold]Endpoints using external templates[/bold]", border_style="yellow"))

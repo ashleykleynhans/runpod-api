@@ -94,26 +94,40 @@ if __name__ == '__main__':
     args = get_args()
     serverless = rpapi.Serverless()
 
-    response = serverless.create_endpoint(
-        name=args.name,
-        template_id=args.template_id,
-        gpu_ids=args.gpu_ids,
-        network_volume_id=args.network_volume_id,
-        workers_min=args.workers_min,
-        workers_max=args.workers_max,
-        idle_timeout=args.idle_timeout,
-        locations=args.locations,
-        scaler_type=args.scaler_type,
-        scaler_value=args.scaler_value
-    )
+    config = {
+        'name': args.name,
+        'gpu': {
+            'pools': [p.strip() for p in args.gpu_ids.split(',') if p.strip()],
+            'count': 1,
+        },
+        'workers': {
+            'min': args.workers_min,
+            'max': args.workers_max,
+        },
+        'timeout': args.idle_timeout * 1000,
+    }
 
-    if response.status_code == 200:
+    if args.network_volume_id:
+        config['networkVolumes'] = [args.network_volume_id]
+
+    if args.locations:
+        config['dataCenterIds'] = [args.locations]
+
+    if args.scaler_type and args.scaler_value:
+        config['scaling'] = {
+            'type': args.scaler_type,
+            'value': args.scaler_value,
+        }
+
+    response = serverless.create_endpoint(config)
+
+    if response.status_code in (200, 201):
         resp_json = response.json()
 
         if 'errors' in resp_json:
             print('ERROR:')
             for error in resp_json['errors']:
-                print(error['message'])
+                print(error.get('message', str(error)))
         else:
             print(json.dumps(resp_json, indent=4, default=str))
     else:

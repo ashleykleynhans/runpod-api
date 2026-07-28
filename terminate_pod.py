@@ -23,12 +23,12 @@ if __name__ == '__main__':
     pod_id = args.pod_id
     runpod = rpapi.API()
     response = runpod.terminate_pod(pod_id)
-    resp_json = response.json()
 
-    if response.status_code == 200:
-        if 'errors' in resp_json:
-            print('ERROR:')
-            for error in resp_json['errors']:
-                print(error['message'])
-        else:
-            print(f'Pod {pod_id} has been terminated')
+    if response.status_code in (200, 204):
+        print(f'Pod {pod_id} has been terminated')
+    else:
+        print(f'HTTP {response.status_code}')
+        try:
+            print(response.text)
+        except Exception:
+            pass

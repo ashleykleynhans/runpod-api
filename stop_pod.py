@@ -31,8 +31,13 @@ if __name__ == '__main__':
         if 'errors' in resp_json:
             print('ERROR:')
             for error in resp_json['errors']:
-                print(error['message'])
+                print(error.get('message', str(error)))
         else:
-            pod = resp_json['data']['podStop']
-            print(f"id:     {pod['id']}")
-            print(f"status: {pod['desiredStatus']}")
+            pod = resp_json
+            print(f"id:     {pod.get('id')}")
+            print(f"status: {pod.get('status')}")
+    elif response.status_code == 204:
+        print(f'Pod {pod_id} stopped')
+    else:
+        print(f'HTTP {response.status_code}')
+        print(json.dumps(resp_json, indent=4, default=str))

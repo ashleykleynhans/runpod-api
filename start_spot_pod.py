@@ -34,22 +34,28 @@ def start_pod(pod_id, bid_price):
     if response.status_code == 200:
         if 'errors' in resp_json:
             for error in resp_json['errors']:
-                if error['message'] == 'There are not enough free GPUs on the host machine to start this pod.'\
-                        or error['message'] == 'The server your pods are hosted on does not have enough GPUs for you to resume your spot pod. Please try again later.':
+                msg = error.get('message', str(error))
+                if 'not enough free gpus' in msg.lower():
                     print('No available GPU, sleeping for 30 seconds....')
                     time.sleep(30)
                     start_pod(pod_id, bid_price)
                 else:
-                    print(f"ERROR: {error['message']}")
+                    print(f"ERROR: {msg}")
         else:
-            pod = resp_json['data']['podBidResume']
-
-            print(f"id:         {pod['id']}")
-            print(f"status:     {pod['desiredStatus']}")
-            print(f"image:      {pod['imageName']}")
-            print(f"machine id: {pod['machineId']}")
-            print(f"host id:    {pod['machine']['podHostId']}")
+            pod = resp_json
+            machine = pod.get('machine', {}) if isinstance(pod, dict) else {}
+            print(f"id:         {pod.get('id')}")
+            print(f"status:     {pod.get('status')}")
+            print(f"image:      {pod.get('image')}")
+            print(f"machine id: {pod.get('machineId', 'N/A')}")
+            if machine:
+                print(f"host id:    {machine.get('podHostId', 'N/A')}")
             sys.exit()
+    elif response.status_code == 204:
+        print(f'Pod {pod_id} action completed')
+    else:
+        print(f'HTTP {response.status_code}')
+        print(resp_json)
 
 
 if __name__ == '__main__':
