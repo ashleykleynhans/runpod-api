@@ -19,3 +19,4 @@
 - Added test suite with 141 tests covering all classes (Client, API, Serverless, Endpoints)
 - Configured `pytest-cov` with `--cov-fail-under=100` for 100% coverage enforcement
 - Added `test_imports.py` verifying all project scripts parse successfully
+- Added GitHub Actions CI workflow (`tests.yml`) running on Python 3.9-3.13
