@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import rpapi
 import json
 
 
@@ -22,7 +23,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     job_id = args.job_id
-    endpoints = runpod.Endpoints()
+    endpoints = rpapi.Endpoints()
     response = endpoints.cancel_dreambooth_training(job_id)
 
     if response.status_code == 401:

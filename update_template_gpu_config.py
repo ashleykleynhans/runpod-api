@@ -19,7 +19,7 @@ Run with --dry-run to preview changes without applying them.
 """
 import argparse
 import json
-import runpod
+import rpapi
 
 from rich.console import Console
 from rich.table import Table
@@ -177,7 +177,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     console = Console()
-    api = runpod.API()
+    api = rpapi.API()
 
     # Fetch all GPU types from the API
     with console.status("[bold]Fetching GPU types...[/bold]"):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-import runpod
+import rpapi
 import time
 
 
@@ -45,6 +45,6 @@ def start_pod(pod_id):
 
 
 if __name__ == '__main__':
-    runpod = runpod.API()
+    runpod = rpapi.API()
     args = get_args()
     start_pod(args.pod_id)

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import rpapi
 import json
 
 CONCEPT_NAME = 'OHWXman'
 
 
 if __name__ == '__main__':
-    endpoints = runpod.Endpoints()
+    endpoints = rpapi.Endpoints()
 
     response = endpoints.train_dreambooth({
         'input': {

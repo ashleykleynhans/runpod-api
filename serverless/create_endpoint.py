@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import rpapi
 
 
 def get_args():
@@ -91,7 +92,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    serverless = runpod.Serverless()
+    serverless = rpapi.Serverless()
 
     response = serverless.create_endpoint(
         name=args.name,

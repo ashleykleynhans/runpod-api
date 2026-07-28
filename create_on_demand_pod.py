@@ -2,7 +2,7 @@
 import sys
 import json
 import time
-import runpod
+import rpapi
 
 VERSION = '4.2.2'
 NAME = f'stable-diffusion-webui {VERSION}'
@@ -76,5 +76,5 @@ def create_on_demand_pod():
 
 
 if __name__ == '__main__':
-    runpod = runpod.API()
+    runpod = rpapi.API()
     create_on_demand_pod()

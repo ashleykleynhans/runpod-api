@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rpapi"
+version = "0.1.0"
+description = "Runpod API client library"
+requires-python = ">=3.9"
+dependencies = [
+    "httpx",
+    "python-dotenv",
+]
+
+[tool.setuptools]
+packages = ["rpapi"]
+
+[project.optional-dependencies]
+dev = [
+    "prettytable",
+    "colorama",
+    "rich",
+]

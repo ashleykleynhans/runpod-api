@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import runpod
+import rpapi
 import json
 from rich.console import Console
 from rich.table import Table
@@ -7,7 +7,7 @@ from rich.table import Table
 
 if __name__ == '__main__':
     console = Console()
-    api = runpod.API()
+    api = rpapi.API()
     response = api.get_network_volumes()
     resp_json = response.json()
 

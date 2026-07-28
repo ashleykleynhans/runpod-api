@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+import rpapi
 import json
 
 VERSION = '8.0.0'
@@ -22,7 +23,7 @@ MIN_RAM = 0
 
 
 if __name__ == '__main__':
-    runpod = runpod.API()
+    runpod = rpapi.API()
 
     with open("README.md", "r") as file:
         README = file.read()

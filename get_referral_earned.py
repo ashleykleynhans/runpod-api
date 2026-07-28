@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import runpod
+import rpapi
 import json
 import time
 from colorama import Fore, Style, init
 
 
 if __name__ == '__main__':
-    runpod = runpod.API()
+    runpod = rpapi.API()
     response = runpod.get_myself()
 
     if response.status_code == 200:

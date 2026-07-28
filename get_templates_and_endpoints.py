@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import runpod
+import rpapi
 import json
 from collections import defaultdict
 from rich.console import Console
@@ -10,7 +10,7 @@ from rich.text import Text
 
 if __name__ == '__main__':
     console = Console()
-    api = runpod.API()
+    api = rpapi.API()
     response = api.get_templates_and_endpoints()
     resp_json = response.json()
 

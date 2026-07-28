@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import runpod
+import rpapi
 import json
 
 
 if __name__ == '__main__':
-    runpod = runpod.API()
+    runpod = rpapi.API()
     response = runpod.get_myself()
     resp_json = response.json()
 

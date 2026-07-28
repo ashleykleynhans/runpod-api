@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Display available GPU types with pricing from the Runpod API."""
 import json
-import runpod
+import rpapi
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
@@ -9,7 +9,7 @@ from rich.text import Text
 
 if __name__ == '__main__':
     console = Console()
-    runpod = runpod.API()
+    runpod = rpapi.API()
     response = runpod.get_gpu_types()
     resp_json = response.json()
 

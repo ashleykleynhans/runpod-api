@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import runpod
+import rpapi
 import json
 import sys
 from rich.console import Console
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     to_name = sys.argv[2]
 
     console = Console()
-    api = runpod.API()
+    api = rpapi.API()
     response = api.get_templates_and_endpoints()
     resp_json = response.json()
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         console.print("[yellow]Aborted.[/yellow]")
         exit(0)
 
-    serverless = runpod.Serverless()
+    serverless = rpapi.Serverless()
     resp = serverless.update_endpoint_template(endpoint['id'], to_template['id'])
     resp_json = resp.json()
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import runpod
+import rpapi
 
 
 def get_args():
@@ -22,7 +22,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     pod_id = args.pod_id
-    runpod = runpod.API()
+    runpod = rpapi.API()
     response = runpod.get_pod(pod_id)
     resp_json = response.json()
 

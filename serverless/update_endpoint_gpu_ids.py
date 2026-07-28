@@ -2,7 +2,8 @@
 """Update GPU pool IDs for a serverless endpoint."""
 import argparse
 import json
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import rpapi
 
 VALID_GPU_POOLS = [
     'AMPERE_16', 'AMPERE_24', 'ADA_24', 'AMPERE_48',
@@ -43,7 +44,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    serverless = runpod.Serverless()
+    serverless = rpapi.Serverless()
 
     response = serverless.update_endpoint_gpu_ids(
         endpoint_id=args.endpoint_id,

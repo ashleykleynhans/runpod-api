@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-import runpod
+import os, sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import rpapi
 import json
 from prettytable import PrettyTable
 
@@ -30,7 +31,7 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
-    runpod = runpod.Serverless()
+    runpod = rpapi.Serverless()
 
     response = runpod.get_serverless_request_metrics(args.endpoint_id, args.interval)
 
