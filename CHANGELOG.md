@@ -16,7 +16,8 @@
 - Converted pod create/start/stop/terminate from GraphQL mutations to REST v2 endpoints
 - Converted serverless endpoint management from GraphQL mutations to REST v2 PATCH endpoints
 - Template creation scripts now use structured REST v2 JSON bodies instead of GraphQL string interpolation
-- Added test suite with 141 tests covering all classes (Client, API, Serverless, Endpoints)
+- Added test suite with 131 tests covering all classes (Client, API, Serverless)
 - Configured `pytest-cov` with `--cov-fail-under=100` for 100% coverage enforcement
 - Added `test_imports.py` verifying all project scripts parse successfully
-- Added GitHub Actions CI workflow (`tests.yml`) running on Python 3.9-3.13
+- Added GitHub Actions CI workflow (`tests.yml`) running on Python 3.10-3.14
+- Removed `Endpoints` class and dreambooth scripts (API deprecated by Runpod)

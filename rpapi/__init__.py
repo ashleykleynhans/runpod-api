@@ -1,5 +1,4 @@
 """Runpod REST API v2 client library."""
-import json
 import httpx
 from dotenv import dotenv_values
 
@@ -563,42 +562,3 @@ class Serverless(Client):
             'workers': workers,
             'releases': releases,
         }
-
-
-class Endpoints(object):
-    """Dreambooth API endpoints (legacy REST, unchanged from v1)."""
-
-    def __init__(self):
-        env = dotenv_values('.env')
-        self.API_KEY = env['RUNPOD_API_KEY']
-        self.headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {self.API_KEY}',
-        }
-
-    def get_dreambooth_health(self):
-        return httpx.get(
-            'https://api.runpod.ai/v2/dream-booth-v1/health',
-            headers=self.headers,
-        )
-
-    def train_dreambooth(self, payload):
-        return httpx.post(
-            'https://api.runpod.ai/v2/dream-booth-v1/run',
-            json=payload,
-            headers=self.headers,
-            timeout=120,
-        )
-
-    def cancel_dreambooth_training(self, job_id):
-        return httpx.post(
-            f'https://api.runpod.ai/v2/dream-booth-v1/cancel/{job_id}',
-            headers=self.headers,
-        )
-
-    def get_status(self, job_id):
-        return httpx.get(
-            f'https://api.runpod.ai/v2/dream-booth-v1/status/{job_id}',
-            headers=self.headers,
-        )

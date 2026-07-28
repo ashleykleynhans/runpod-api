@@ -11,11 +11,7 @@ Python library for managing [Runpod](https://runpod.io) resources via the REST v
 ```
 runpod-api/
 ├── rpapi/                    # Core library package
-│   └── __init__.py           # Client, API, Serverless, Endpoints classes
-├── endpoints/                # Dreambooth training scripts
-│   ├── train_dreambooth.py
-│   ├── cancel_dreambooth_job.py
-│   └── get_dreambooth_status.py
+│   └── __init__.py           # Client, API, Serverless classes
 ├── serverless/               # Serverless endpoint management scripts
 │   ├── create_endpoint.py
 │   ├── update_endpoint_template.py
@@ -96,9 +92,6 @@ api = rpapi.API()
 
 # Serverless endpoints
 serverless = rpapi.Serverless()
-
-# Dreambooth training
-endpoints = rpapi.Endpoints()
 ```
 
 ### API Class
