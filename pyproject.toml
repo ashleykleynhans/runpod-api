@@ -21,3 +21,27 @@ dev = [
     "colorama",
     "rich",
 ]
+test = [
+    "pytest>=7",
+    "pytest-cov",
+    "pytest-mock",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=rpapi --cov-report=term-missing --cov-fail-under=100"
+
+[tool.coverage.run]
+source = ["rpapi"]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    "def __repr__",
+    "if self.debug:",
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

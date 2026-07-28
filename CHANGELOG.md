@@ -16,3 +16,6 @@
 - Converted pod create/start/stop/terminate from GraphQL mutations to REST v2 endpoints
 - Converted serverless endpoint management from GraphQL mutations to REST v2 PATCH endpoints
 - Template creation scripts now use structured REST v2 JSON bodies instead of GraphQL string interpolation
+- Added test suite with 141 tests covering all classes (Client, API, Serverless, Endpoints)
+- Configured `pytest-cov` with `--cov-fail-under=100` for 100% coverage enforcement
+- Added `test_imports.py` verifying all project scripts parse successfully
