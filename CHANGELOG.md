@@ -7,3 +7,5 @@
 - Added `pyproject.toml` with `pip install -e .` support
 - Removed all `runpod.py` symlinks from subdirectories
 - Added `sys.path` fixup to subdirectory scripts for development use without installation
+- Improved `get_referral_earned.py` with Rich formatting: panels, tables, and referral stats
+- Fixed `get_referral_earned.py` to handle partial GraphQL errors gracefully
