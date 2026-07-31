@@ -4,6 +4,8 @@ import time
 import rpapi
 from rich.console import Console
 from rich.panel import Panel
+from rich.table import Table
+from rich import box
 
 console = Console()
 
@@ -95,8 +97,23 @@ def create_on_demand_pod():
                 else:
                     console.print(f'[red]ERROR: {msg}[/red]')
         else:
-            console.print(Panel('', title='[bold green]Pod Created[/bold green]'))
-            console.print_json(data=resp_json)
+            pod = resp_json
+            console.print()
+            table = Table(show_header=False, box=box.SIMPLE, padding=(0, 1))
+            table.add_column('Key', style='bold cyan')
+            table.add_column('Value')
+            table.add_row('Pod ID', pod.get('id', ''))
+            table.add_row('Name', pod.get('name', ''))
+            table.add_row('Status', pod.get('status', ''))
+            table.add_row('Image', pod.get('image', ''))
+            table.add_row('GPU', f"{pod.get('gpu', {}).get('id', '')} x {pod.get('gpu', {}).get('count', '')}")
+            table.add_row('Ports', ', '.join(pod.get('ports', [])))
+            table.add_row('Cloud', pod.get('cloud', ''))
+            if pod.get('dataCenterId'):
+                table.add_row('Data Center', pod['dataCenterId'])
+            if pod.get('cost'):
+                table.add_row('Cost/hr', f"${pod['cost']}")
+            console.print(Panel(table, title='[bold green]Pod Created[/bold green]'))
             sys.exit()
     elif response.status_code == 400 and 'does not have the resources' in resp_json.get('detail', ''):
         console.print('[yellow]Machine does not have resources, retrying in 5 seconds[/yellow]')
