@@ -117,10 +117,7 @@ def _create_via_graphql():
                 gpuCount
                 machine {
                     dataCenterId
-                }
-                gpus {
-                    id
-                    displayName
+                    gpuDisplayName
                 }
             }
         }
@@ -166,7 +163,7 @@ def _create_via_graphql():
             'disk': pod.get('containerDiskInGb'),
             'ports': pod.get('ports', '').split(',') if pod.get('ports') else [],
             'gpu': {
-                'id': (pod.get('gpus') or [{}])[0].get('displayName') if pod.get('gpus') else '',
+                'id': (pod.get('machine') or {}).get('gpuDisplayName', ''),
                 'count': pod.get('gpuCount', 1),
             },
             'cloud': CLOUD_TYPE,
