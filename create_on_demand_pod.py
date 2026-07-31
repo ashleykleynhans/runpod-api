@@ -11,14 +11,14 @@ console = Console()
 
 # VERSION = 'cu124-py311-v0.29.2'
 # VERSION = 'cu124-py312-v0.29.2'
-VERSION = 'cu128-py312-v0.29.2'
 # VERSION = '8.11.4'
+TEMPLATE_ID = 'jv061dyevn'
 
 # NAME = 'ULTIMATE Stable Diffusion Kohya ComfyUI InvokeAI'
 NAME = 'ComfyUI RTX 5090 - Python 3.12'
 
 # IMAGE_NAME = f'ghcr.io/ashleykleynhans/stable-diffusion-webui:{VERSION}'
-IMAGE_NAME = f'ghcr.io/ashleykleynhans/comfyui:{VERSION}'
+# IMAGE_NAME = f'ghcr.io/ashleykleynhans/comfyui:{VERSION}'
 
 # GPU_TYPE_ID = 'NVIDIA GeForce RTX 3090'
 GPU_TYPE_ID = 'NVIDIA GeForce RTX 5090'
@@ -57,27 +57,52 @@ NAMED_PORTS = {
 PORTS = ','.join(NAMED_PORTS.values())
 
 def create_on_demand_pod():
-    pod_config = {
-        'name': NAME,
-        'image': IMAGE_NAME,
-        'gpu': {
-            'id': GPU_TYPE_ID,
-            'count': 1,
-        },
-        'cloud': CLOUD_TYPE,
-        'disk': OS_DISK_SIZE_GB,
-        'ports': PORTS.split(','),
-        'mounts': {
-            'persistent': {
-                'size': PERSISTENT_DISK_SIZE_GB,
-                'path': '/workspace',
-            }
-        },
-        # 'env': {
-        #     'VENV_PATH': '/workspace/venvs/stable-diffusion-webui',
-        #     'ENABLE_TENSORBOARD': '1',
-        # },
-    }
+    if TEMPLATE_ID:
+        resp = runpod.get_template(TEMPLATE_ID)
+        resp.raise_for_status()
+        template = resp.json()
+        pod_config = {
+            'name': NAME,
+            'gpu': {
+                'id': GPU_TYPE_ID,
+                'count': 1,
+            },
+            'cloud': CLOUD_TYPE,
+            'disk': template.get('disk', OS_DISK_SIZE_GB),
+            'image': template['image'],
+            'ports': template.get('ports', PORTS.split(',')),
+            'mounts': template.get('mounts', {
+                'persistent': {
+                    'size': PERSISTENT_DISK_SIZE_GB,
+                    'path': '/workspace',
+                }
+            }),
+            'env': template.get('env', {}),
+            'args': template.get('args', ''),
+            'registry': template.get('registry'),
+        }
+    else:
+        pod_config = {
+            'name': NAME,
+            'image': IMAGE_NAME,
+            'gpu': {
+                'id': GPU_TYPE_ID,
+                'count': 1,
+            },
+            'cloud': CLOUD_TYPE,
+            'disk': OS_DISK_SIZE_GB,
+            'ports': PORTS.split(','),
+            'mounts': {
+                'persistent': {
+                    'size': PERSISTENT_DISK_SIZE_GB,
+                    'path': '/workspace',
+                }
+            },
+            # 'env': {
+            #     'VENV_PATH': '/workspace/venvs/stable-diffusion-webui',
+            #     'ENABLE_TENSORBOARD': '1',
+            # },
+        }
 
     response = runpod.create_pod(pod_config)
     resp_json = response.json()
