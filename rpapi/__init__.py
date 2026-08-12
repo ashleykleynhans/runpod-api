@@ -76,6 +76,30 @@ class API(Client):
         """
         return self.get_gpu_type(gpu_id)
 
+    def get_gpu_availability(self, product='POD', cloud='COMMUNITY', count=1,
+                             min_cuda_version=None):
+        """Get per-datacenter GPU availability for a deployment context.
+
+        Args:
+            product: Availability product context ('POD', 'CLUSTER',
+                'SERVERLESS').
+            cloud: Cloud type ('SECURE' or 'COMMUNITY').
+            count: GPU count for availability calculations.
+            min_cuda_version: Minimum CUDA version, e.g. '12.8'.
+
+        Returns:
+            httpx.Response for GET /catalog/gpus?include=AVAILABILITY.
+        """
+        params = {
+            'include': 'AVAILABILITY',
+            'product': product,
+            'cloud': cloud,
+            'count': count,
+        }
+        if min_cuda_version:
+            params['minCudaVersion'] = min_cuda_version
+        return self._get('/catalog/gpus', params=params)
+
     # -- Pods ---------------------------------------------------------------
 
     def get_pod(self, pod_id):

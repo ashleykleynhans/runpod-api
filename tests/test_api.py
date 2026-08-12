@@ -29,6 +29,35 @@ class TestAPIGpuTypes:
         assert "/catalog/gpus/NVIDIA RTX 3090" in args[0]
 
 
+class TestAPIGpuAvailability:
+    """Tests for GPU availability checks."""
+
+    def test_get_gpu_availability_calls_endpoint(self, mock_get):
+        api = rpapi.API()
+        api.get_gpu_availability()
+        mock_get.assert_called_once()
+        args, kwargs = mock_get.call_args
+        assert "/catalog/gpus" in args[0]
+        assert kwargs["params"] == {
+            "include": "AVAILABILITY",
+            "product": "POD",
+            "cloud": "COMMUNITY",
+            "count": 1,
+        }
+
+    def test_get_gpu_availability_with_min_cuda(self, mock_get):
+        api = rpapi.API()
+        api.get_gpu_availability(min_cuda_version="12.8")
+        args, kwargs = mock_get.call_args
+        assert kwargs["params"]["minCudaVersion"] == "12.8"
+
+    def test_get_gpu_availability_without_min_cuda(self, mock_get):
+        api = rpapi.API()
+        api.get_gpu_availability()
+        args, kwargs = mock_get.call_args
+        assert "minCudaVersion" not in kwargs["params"]
+
+
 class TestAPIPods:
     """Tests for pod management methods."""
 
