@@ -441,6 +441,83 @@ class API(Client):
             timeout=60.0,
         )
 
+    # -- Affiliate ----------------------------------------------------------
+
+    def get_affiliate_statistics(self, start_date, end_date):
+        """Get affiliate statistics for a date range.
+
+        Uses the legacy GraphQL API (userAffiliateStatistics).
+
+        Args:
+            start_date: ISO 8601 start date, e.g. '2026-08-09T20:13:32.903Z'.
+            end_date: ISO 8601 end date, e.g. '2026-09-07T20:13:32.903Z'.
+
+        Returns:
+            httpx.Response for the userAffiliateStatistics GraphQL query.
+        """
+        query = (
+            "query userAffiliateStatistics($input: UserAffiliateStatisticsInput!) {\n"
+            "  userAffiliateStatistics(input: $input) {\n"
+            "    date\n"
+            "    activations\n"
+            "    signups\n"
+            "    revenue\n"
+            "    __typename\n"
+            "  }\n"
+            "}"
+        )
+        payload = {
+            "operationName": "userAffiliateStatistics",
+            "variables": {
+                "input": {
+                    "startDate": start_date,
+                    "endDate": end_date,
+                }
+            },
+            "query": query,
+        }
+        return httpx.post(
+            f"{GRAPHQL_URL}?api_key={self.api_key}",
+            json=payload,
+            timeout=60.0,
+        )
+
+    def get_user_affiliate_statistics(self, start_date, end_date):
+        """Alias for get_affiliate_statistics (matches GraphQL operation name)."""
+        return self.get_affiliate_statistics(start_date, end_date)
+
+    def get_affiliate_program_earnings(self):
+        """Get affiliate program earnings summary.
+
+        Uses the legacy GraphQL API (affiliateProgramEarnings).
+
+        Returns:
+            httpx.Response for the affiliateProgramEarnings GraphQL query.
+        """
+        query = (
+            "query affiliateProgramEarnings {\n"
+            "  affiliateProgramEarnings {\n"
+            "    totalReferrals\n"
+            "    totalPaidReferrals\n"
+            "    templateEarnings\n"
+            "    referralEarnings\n"
+            "    referralBonusEarnings\n"
+            "    affiliateEarnings\n"
+            "    __typename\n"
+            "  }\n"
+            "}"
+        )
+        payload = {
+            "operationName": "affiliateProgramEarnings",
+            "variables": {},
+            "query": query,
+        }
+        return httpx.post(
+            f"{GRAPHQL_URL}?api_key={self.api_key}",
+            json=payload,
+            timeout=60.0,
+        )
+
     # -- Registry -----------------------------------------------------------
 
     def get_registries(self):
