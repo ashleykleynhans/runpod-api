@@ -385,3 +385,39 @@ class TestAPIGetMyself:
         assert "https://api.runpod.io/graphql?api_key=" in args[0]
         assert "query" in kwargs["json"]
         assert "myself" in kwargs["json"]["query"]
+
+
+class TestAPIAffiliate:
+    """Tests for affiliate GraphQL methods."""
+
+    def test_get_affiliate_statistics_uses_graphql(self, mock_post):
+        api = rpapi.API()
+        api.get_affiliate_statistics("2026-08-09T20:13:32.903Z", "2026-09-07T20:13:32.903Z")
+        mock_post.assert_called_once()
+        args, kwargs = mock_post.call_args
+        assert "https://api.runpod.io/graphql?api_key=" in args[0]
+        payload = kwargs["json"]
+        assert payload["operationName"] == "userAffiliateStatistics"
+        assert payload["variables"]["input"]["startDate"] == "2026-08-09T20:13:32.903Z"
+        assert payload["variables"]["input"]["endDate"] == "2026-09-07T20:13:32.903Z"
+        assert "userAffiliateStatistics" in payload["query"]
+        assert kwargs["timeout"] == 60.0
+
+    def test_get_user_affiliate_statistics_alias(self, mock_post):
+        api = rpapi.API()
+        api.get_user_affiliate_statistics("2026-08-09T20:13:32.903Z", "2026-09-07T20:13:32.903Z")
+        mock_post.assert_called_once()
+        payload = mock_post.call_args[1]["json"]
+        assert payload["operationName"] == "userAffiliateStatistics"
+
+    def test_get_affiliate_program_earnings_uses_graphql(self, mock_post):
+        api = rpapi.API()
+        api.get_affiliate_program_earnings()
+        mock_post.assert_called_once()
+        args, kwargs = mock_post.call_args
+        assert "https://api.runpod.io/graphql?api_key=" in args[0]
+        payload = kwargs["json"]
+        assert payload["operationName"] == "affiliateProgramEarnings"
+        assert payload["variables"] == {}
+        assert "affiliateProgramEarnings" in payload["query"]
+        assert kwargs["timeout"] == 60.0
