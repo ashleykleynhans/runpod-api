@@ -1,8 +1,10 @@
 # rpapi - Runpod REST API v2 Client
 
 [![Tests](https://github.com/ashleykleynhans/runpod-api/actions/workflows/tests.yml/badge.svg)](https://github.com/ashleykleynhans/runpod-api/actions/workflows/tests.yml)
-![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://github.com/ashleykleynhans/runpod-api)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/ashleykleynhans/runpod-api/actions/workflows/tests.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Python library for managing [Runpod](https://runpod.io) resources via the REST v2 API. Manage pods, serverless endpoints, templates, GPU types, and network volumes from Python scripts or the command line.
 
